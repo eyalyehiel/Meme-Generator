@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Meme Generator</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/fontawesome-free-6.2.0-web/css/all.css">
 </head>
 <body onload="onInit()">
     <section class="main-layout">
         <header class="main-header">
-            <h1>LOGO</h1>
+            <h1>Meme Generator</h1>
             <nav class="main-nav">
                 <ul class="clean-list">
-                    <li>gallery</li>
-                    <li>memes</li>
+                    <li><a href="#" onclick="changeDisplay()">gallery</a></li>
+                    <li><a href="#" onclick="changeDisplay()">Memes</a></li>
                 </ul>
             </nav>
         </header>
@@ -28,29 +27,29 @@
             </main>
             <aside class="control-box">
                     <input type="text" class="text" oninput="onSetLineText()">
-                    <button type="button" onclick="onMoveLine(50)"><i class="fa-solid fa-arrow-up fa-2xl"></i></button>
-                    <button type="button" onclick="onMoveLine(-50)"><i class="fa-solid fa-arrow-down fa-2xl"></i></button>
-                    <button type="button" onclick="onSetLineFocus()"><i class="fa-solid fa-arrow-down-up-across-line fa-2xl"></i></i></button>
-                    <button type="button" onclick="onAddLine()"><i class="fa-solid fa-plus fa-2xl"></i></button>
-                    <button type="button"><i class="fa-regular fa-trash-can fa-2xl"></i></button>
+                    <button type="button" onclick="onMoveLine(-50)"><img class="btnImg" src="imgs/icons/up-arrow.png"></button>
+                    <button type="button" onclick="onMoveLine(50)"><img class="btnImg" src="imgs/icons/down-arrow.png"></button>
+                    <button type="button" onclick="onSetLineFocus()"><img class="btnImg" src="imgs/icons/up-down.png"></button>
+                    <button type="button" onclick="onAddLine()"><img class="btnImg" src="imgs/icons/plus.png"></button>
+                    <button type="button"><img class="btnImg" src="imgs/icons/delete.png"></button>
                     <div class="text-manipulation">
                         <button type="button" onclick="onSetLineSize(2)"><img class="btnImg" src="imgs/icons/enlarge.png"></button>
                         <button type="button" onclick="onSetLineSize(-2)"><img class="btnImg" src="imgs/icons/reduce.png"></button>
-                        <button type="button" onclick="onSetTextAlign('left')"><i class="fa-solid fa-align-left fa-2xl"></i></button>
-                        <button type="button" onclick="onSetTextAlign('center')"><i class="fa-solid fa-align-center fa-2xl"></i></button>                    
-                        <button type="button" onclick="onSetTextAlign('right')"><i class="fa-solid fa-align-right fa-2xl"></i></button>
+                        <button type="button" onclick="onSetTextAlign('left')"><img class="btnImg" src="imgs/icons/align-left.png"></button>
+                        <button type="button" onclick="onSetTextAlign('center')"><img class="btnImg" src="imgs/icons/align-center.png"></button>                    
+                        <button type="button" onclick="onSetTextAlign('right')"><img class="btnImg" src="imgs/icons/align-right.png"></button>
                         <select class="selector">
                             <option>asdasd</option>
                             <option>asdasd</option>
                             <option>asdasd</option>
                         </select>
-                        <button type="button" onclick="onOpenColorPicker()"><i class="fa-solid fa-s fa-2xl"></i><input type="color" class="textColor hide c22" onchange="onSetLineColor()"></button>
+                        <button type="button" onclick="onOpenColorPicker()"><img class="btnImg" src="imgs/icons/letter-s.png"><input type="color" class="textColor hide c22" onchange="onSetLineColor()"></button>
                         <input type="color" class="textColor" onchange="onSetLineColor()">
                     </div>
                     <div class="stickers">
-                        <button type="button"><</button>
-                        <span></span>
-                        <button type="button">></button>
+                        <button type="button" onclick="onRenderEms(-3)"><img class="btnImg" src="imgs/icons/before.png"></button>
+                        <div class="emojies-display"></div>
+                        <button type="button" onclick="onRenderEms(3)"><img class="btnImg" src="imgs/icons/next.png"></button>
                     </div>
                     <div class="options">
                         <button type="button" class="share">Share</button>
@@ -63,8 +62,8 @@
 
     <script src="js/services/util-service.js"></script>
     <script src="js/services/storage-service.js"></script>
-    <script src="js/services/meme-service.js"></script>
     <script src="js/meme-controller.js"></script>
+    <script src="js/services/meme-service.js"></script>
     <script src="js/gallery-controller.js"></script>
 </body>
 </html>

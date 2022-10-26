@@ -12,10 +12,20 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+@font-face {
+    font-family: Heading;
+    src: url(fonts/AirtravelerspersonaluseBdit-ow59x.otf);
+}
+
 body{
     margin: 0;
     height: 100vh;
 }
+
+h1{
+    font-family: Heading;
+}
+
 
 
 
@@ -39,17 +49,32 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-inline: 15px;
+    padding-inline: 30px;
 }
 
 .main-nav ul {
     display: flex;
     align-items: center;
+    margin-inline-end: 35px;
 }
 
 .main-nav ul li {
-    margin-inline-end: 10px;
-    padding: 15px;
+    display: flex;
+    justify-content: center;
+
+}
+.main-nav li a{
+    text-decoration: none;
+    color: white;
+    width: 75px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-nav li a:hover{
+    box-shadow: inset 0px -3px 0px 0px
 }
 
 
@@ -73,7 +98,7 @@ body{
 
 /* control box */
 .control-box{
-    background-color: var(--clr2);
+    background-color: var(--clr3);
     display: grid;
     grid-template-columns: repeat(5,1fr);
     grid-template-rows: repeat(6,1fr);
@@ -83,6 +108,8 @@ body{
 
 .text {
     grid-column: 1 /span 5;
+    border-radius: 5px;
+    font-size: 2em;
 }
 .text-manipulation{
     grid-column: 1 / span 5;
@@ -108,6 +135,7 @@ body{
 }
 .selector{
     grid-column: span 3;
+    border-radius: 5px;
 }
 
 .share {
@@ -128,27 +156,18 @@ body{
     list-style-type: none;
 }
 
+
 button{
     background-color: var(--clr2);
-}
-
-button:not(.stickers button){
-    /* all: unset; */
-    /* background-color: rgba(0, 0, 0, 0); */
     border: none;
-    /* background-color: blue; */
-
+    border-radius: 5px;
 }
 button:hover{
     background-color: var(--clr3);
+    border: 1px solid black;
 }
 
-.stickers span img {
-    width: 30px;
-    height: 30px;
-}
-
-img:not(.sticker span,.btnImg) {
+img:not(.btnImg) {
     width: 75px;
     aspect-ratio: 1/1;
     margin: 5px;
@@ -163,7 +182,22 @@ img:not(.sticker span,.btnImg) {
 }
 
 .btnImg{
-    /* width: 1em; */
     width: 26px;
     aspect-ratio: 1/1;
+}
+
+.stickers{
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr; 
+}
+
+.stickers .emojies-display{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+
+.stickers .emojies-display .emoji-preview{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

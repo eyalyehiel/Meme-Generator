@@ -12,19 +12,23 @@ var gMeme = {
             txt: 'I sometimes eat Falafel',
             size: 20,
             align: 'left',
-            color: 'red'
+            color: 'red',
+            pos: {x: 10, y: 50},
+            isDrag: false
         }
     ]
 }
-function addLine(){
+
+function addLine(emoji){
     gMeme.lines.push({
-        txt: 'TEXT',
+        txt: emoji ||  'TEXT',
         size: 20,
         align: 'left',
-        color: 'red'
+        color: 'red',
+        pos: {x:10,y:50},
+        isDrag: false
     })
 }
-
 function setLineText(text,idx){
     gMeme.lines[idx].txt = text
 }
@@ -39,14 +43,15 @@ function setTextAlign(alignment,idx){
     gMeme.lines[idx].align =alignment
 }
 function moveLine(diff,idx){
-    
+    let currPosY = gMeme.lines[idx].pos.y
+    if(currPosY + diff < 25 || currPosY + diff > gElCanvas.height - 25) return
+    gMeme.lines[idx].pos.y += diff
 }
 
 
 function setImg(imgId){
     gMeme.selectedImgId = imgId
 }
-
 function getMeme(){
     return gMeme
 }
@@ -57,21 +62,48 @@ function getEmojies(cb) {
     XHR.onreadystatechange = () => {
         if (XHR.readyState === XMLHttpRequest.DONE && XHR.status === 200) {
             var res = JSON.parse(XHR.responseText)
-            res = prepareData(res)
             cb(res)
         }
     }
 
-    XHR.open('GET', 'https://api.mojilala.com/v1/stickers/search?q=cat&api_key=dc6zaTOxFJmzC ')
+    XHR.open('GET', 'https://emoji-api.com/emojis?access_key=b4b7a789646e16e7dce1e4dac3102e7c0f1aade6')
     XHR.send()
 }
 
-function prepareData(res){
-    var data = res.data
-    console.log(data);
-    data = data.map(sticker => {
-        if(!sticker.images.fixed_height.apng) return
-        return sticker.images.fixed_height.apng
+
+function isItemClicked(clickedPos) {
+    const memeLines = gMeme.lines
+
+    let clickedItem = memeLines.find(({txt,pos,size}) => {
+        const distance = Math.sqrt((pos.x - clickedPos.x) ** 2 + (pos.y - clickedPos.y) ** 2)
+        console.log(distance);
+        gCtx.strokeStyle = 'black'
+        gCtx.strokeRect(pos.x, pos.y, gCtx.measureText(txt).width, size)
+        gCtx.fillStyle = 'orange'
+        gCtx.fillRect(pos.x, pos.y, gCtx.measureText(txt).width, size)
+        return distance <= gCtx.measureText(txt).width * size
+        
     })
-    return data
-}
+    if(clickedItem) return {clickedItem, isClicked: true}
+    return false
+  }
+  
+  function setItemDrag(isDrag, clickedItem) {
+    clickedItem.isDrag = isDrag
+    console.log(clickedItem);
+    console.log(isDrag);
+  }
+
+  function getItemDrag(){
+    return gMeme.lines.find(line => {
+        line.isDrag === true
+    })
+  }
+
+  function moveClickedItem(dx, dy,clickedItem) {
+    console.log(clickedItem);
+    clickedItem.pos.x += dx
+    clickedItem.pos.y += dy
+  
+  }
+  
