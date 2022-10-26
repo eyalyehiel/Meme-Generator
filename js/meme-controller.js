@@ -40,12 +40,18 @@ function onSetLineColor() {
     setLineColor(textColor, gFocusedLineIdx)
     renderMeme()
 }
+function onSetLineBgColor(){
+    const textBgColor = document.querySelector('.textBgColor').value
+    setLineBgColor(textBgColor, gFocusedLineIdx)
+    renderMeme()
+}
 function onSetLineSize(diff) {
     setLineSize(+diff, gFocusedLineIdx)
     renderMeme()
 }
 function onAddLine() {
     addLine()
+    onSetLineFocus()
     renderMeme()
 }
 function onSetLineFocus() {
@@ -67,6 +73,16 @@ function onSetEmoji(elEmoji) {
     addLine(elEmoji.innerText)
     renderMeme()
 }
+function onDeleteLine(){
+    deleteLine(gFocusedLineIdx)
+    const linesLength = getMeme().lines.length
+    if(linesLength === 0) {
+        renderMeme()
+        return
+    }
+    onSetLineFocus()
+    renderMeme()
+}
 
 
 
@@ -78,30 +94,30 @@ function renderMeme() {
 }
 function drawImg(selectedImgId, lines) {
     const img = new Image()
-    img.src = `imgs/${selectedImgId}.jpg`
+    img.src = `css/imgs/${selectedImgId}.jpg`
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-        lines.forEach(({ txt, color, size, align, pos }) => {
+        lines.forEach(({ txt, color, size, bgColor, pos,align }) => {
             switch (align) {
                 case 'left':
-                    pos.x = 10;
-                    drawText(txt, color, size, pos);
+                    // pos.x = 10;
+                    drawText(txt, color, size,bgColor, pos);
                     break;
                 case 'center':
-                    pos.x = gElCanvas.width / 2 - gCtx.measureText(txt).width / 2;
-                    drawText(txt, color, size, pos);
+                    // pos.x = gElCanvas.width / 2 - gCtx.measureText(txt).width / 2;
+                    drawText(txt, color, size,bgColor, pos);
                     break;
                 case 'right':
-                    pos.x = gElCanvas.width - gCtx.measureText(txt).width - 10;
-                    drawText(txt, color, size, pos);
+                    // pos.x = gElCanvas.width - gCtx.measureText(txt).width - 10;
+                    drawText(txt, color, size,bgColor, pos);
                     break;
             }
         });
     }
 }
-function drawText(txt, color, size, pos) {
+function drawText(txt, color, size,bgColor, pos) {
     gCtx.lineWidth = 2
-    gCtx.strokeStyle = 'brown'
+    gCtx.strokeStyle = bgColor
     gCtx.fillStyle = color
 
     gCtx.font = `${size}px Arial`
@@ -130,8 +146,9 @@ function onRenderEms(diff) {
     getEmojies(renderEmojies)
 }
 
-//Drag and Drop
 
+
+//Drag and Drop
 function getEvPos(ev) {
 
     //Gets the offset pos , the default pos
@@ -142,23 +159,24 @@ function getEvPos(ev) {
     return pos
 }
 
+
 //Move Funcs
 function onDown(ev) {
-    console.log('Im from onDown')
+
     //Get the ev pos from mouse or touch
     const pos = getEvPos(ev)
     const {clickedItem, isClicked} = isItemClicked(pos)
+    // console.log(isClicked);
     if (!isClicked) return
     setItemDrag(true,clickedItem)
     //Save the pos we start from 
     gStartPos = pos
-    document.body.style.cursor = 'grabbing'
+    document.querySelector('.canvas-place').style.cursor = 'grabbing'
 
 }
-
 function onMove(ev) {
-    console.log('Im from onMove')
     const clickedItem = getItemDrag()
+    // console.log(clickedItem);
     if (!clickedItem) return
     if(!clickedItem.isDrag) return
     const pos = getEvPos(ev)
@@ -172,15 +190,15 @@ function onMove(ev) {
     renderMeme()
 
 }
-
 function onUp() {
-    console.log('Im from onUp')
-    setItemDrag(false)
-    document.body.style.cursor = 'grab'
-}
 
+    const clickedItem = getItemDrag()
+    if(!clickedItem) return
+    setItemDrag(false,clickedItem)
+    document.querySelector('.canvas-place').style.cursor = 'pointer'
+}
 function addMouseListeners() {
     gElCanvas.addEventListener('mousedown', onDown)
     gElCanvas.addEventListener('mousemove', onMove)
-    // gElCanvas.addEventListener('mouseup', onUp)
+    gElCanvas.addEventListener('mouseup', onUp)
   }

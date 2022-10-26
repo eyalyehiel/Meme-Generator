@@ -13,46 +13,54 @@ var gMeme = {
             size: 20,
             align: 'left',
             color: 'red',
-            pos: {x: 10, y: 50},
+            bgColor: 'red',
+            pos: { x: 10, y: 50 },
             isDrag: false
         }
     ]
 }
 
-function addLine(emoji){
+function addLine(emoji) {
     gMeme.lines.push({
-        txt: emoji ||  'TEXT',
+        txt: emoji || 'TEXT',
         size: 20,
         align: 'left',
         color: 'red',
-        pos: {x:10,y:50},
+        bgColor: 'red',
+        pos: { x: 10, y: 50 },
         isDrag: false
     })
 }
-function setLineText(text,idx){
+function setLineText(text, idx) {
     gMeme.lines[idx].txt = text
 }
-function setLineColor(color,idx){
+function setLineColor(color, idx) {
     gMeme.lines[idx].color = color
 }
-function setLineSize(diff,idx){
+function setLineBgColor(bgColor,idx){
+    gMeme.lines[idx].bgColor = bgColor
+}
+function setLineSize(diff, idx) {
     gMeme.lines[idx].size += diff
 
 }
-function setTextAlign(alignment,idx){
-    gMeme.lines[idx].align =alignment
+function setTextAlign(alignment, idx) {
+    gMeme.lines[idx].align = alignment
 }
-function moveLine(diff,idx){
+function moveLine(diff, idx) {
     let currPosY = gMeme.lines[idx].pos.y
-    if(currPosY + diff < 25 || currPosY + diff > gElCanvas.height - 25) return
+    if (currPosY + diff < 25 || currPosY + diff > gElCanvas.height - 25) return
     gMeme.lines[idx].pos.y += diff
 }
+function deleteLine(idx){
+    gMeme.lines.splice(idx,1)
+}
 
 
-function setImg(imgId){
+function setImg(imgId) {
     gMeme.selectedImgId = imgId
 }
-function getMeme(){
+function getMeme() {
     return gMeme
 }
 
@@ -74,36 +82,32 @@ function getEmojies(cb) {
 function isItemClicked(clickedPos) {
     const memeLines = gMeme.lines
 
-    let clickedItem = memeLines.find(({txt,pos,size}) => {
-        const distance = Math.sqrt((pos.x - clickedPos.x) ** 2 + (pos.y - clickedPos.y) ** 2)
-        console.log(distance);
-        gCtx.strokeStyle = 'black'
-        gCtx.strokeRect(pos.x, pos.y, gCtx.measureText(txt).width, size)
-        gCtx.fillStyle = 'orange'
-        gCtx.fillRect(pos.x, pos.y, gCtx.measureText(txt).width, size)
-        return distance <= gCtx.measureText(txt).width * size
-        
+    let clickedItem = memeLines.find(({ txt, pos, size }) => {
+        const distance = Math.sqrt((pos.x - clickedPos.x) ** 2)
+        const distanceY = Math.sqrt((pos.y - clickedPos.y) ** 2)
+
+        return distance + pos.x >= pos.x && distance + pos.x <= gCtx.measureText(txt).width && distanceY + pos.y >= pos.y && distanceY + pos.y <= pos.y + size
+
     })
-    if(clickedItem) return {clickedItem, isClicked: true}
+    if (clickedItem) return { clickedItem, isClicked: true }
     return false
-  }
-  
-  function setItemDrag(isDrag, clickedItem) {
+}
+
+function setItemDrag(isDrag, clickedItem) {
     clickedItem.isDrag = isDrag
-    console.log(clickedItem);
-    console.log(isDrag);
-  }
+}
 
-  function getItemDrag(){
-    return gMeme.lines.find(line => {
-        line.isDrag === true
+function getItemDrag() {
+    var line = gMeme.lines.find((line) => {
+        return line.isDrag === true
     })
-  }
 
-  function moveClickedItem(dx, dy,clickedItem) {
-    console.log(clickedItem);
-    clickedItem.pos.x += dx
+    return line
+}
+
+function moveClickedItem(dx, dy, clickedItem) {
+
     clickedItem.pos.y += dy
-  
-  }
-  
+    clickedItem.pos.x += dx
+
+}

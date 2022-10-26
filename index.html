@@ -13,8 +13,8 @@
             <h1>Meme Generator</h1>
             <nav class="main-nav">
                 <ul class="clean-list">
-                    <li><a href="#" onclick="changeDisplay()">gallery</a></li>
-                    <li><a href="#" onclick="changeDisplay()">Memes</a></li>
+                    <li><a href="#" onclick="changeDisplay('gallery')">gallery</a></li>
+                    <li><a href="#" onclick="changeDisplay('memes')">Memes</a></li>
                 </ul>
             </nav>
         </header>
@@ -27,29 +27,31 @@
             </main>
             <aside class="control-box">
                     <input type="text" class="text" oninput="onSetLineText()">
-                    <button type="button" onclick="onMoveLine(-50)"><img class="btnImg" src="imgs/icons/up-arrow.png"></button>
-                    <button type="button" onclick="onMoveLine(50)"><img class="btnImg" src="imgs/icons/down-arrow.png"></button>
-                    <button type="button" onclick="onSetLineFocus()"><img class="btnImg" src="imgs/icons/up-down.png"></button>
-                    <button type="button" onclick="onAddLine()"><img class="btnImg" src="imgs/icons/plus.png"></button>
-                    <button type="button"><img class="btnImg" src="imgs/icons/delete.png"></button>
+                    <button type="button" onclick="onMoveLine(-50)"><img class="btnImg" src="css/imgs/icons/up-arrow.png"></button>
+                    <button type="button" onclick="onMoveLine(50)"><img class="btnImg" src="css/imgs/icons/down-arrow.png"></button>
+                    <button type="button" onclick="onSetLineFocus('normal')"><img class="btnImg" src="css/imgs/icons/up-down.png"></button>
+                    <button type="button" onclick="onAddLine()"><img class="btnImg" src="css/imgs/icons/plus.png"></button>
+                    <button type="button" onclick="onDeleteLine()"><img class="btnImg" src="css/imgs/icons/delete.png"></button>
                     <div class="text-manipulation">
-                        <button type="button" onclick="onSetLineSize(2)"><img class="btnImg" src="imgs/icons/enlarge.png"></button>
-                        <button type="button" onclick="onSetLineSize(-2)"><img class="btnImg" src="imgs/icons/reduce.png"></button>
-                        <button type="button" onclick="onSetTextAlign('left')"><img class="btnImg" src="imgs/icons/align-left.png"></button>
-                        <button type="button" onclick="onSetTextAlign('center')"><img class="btnImg" src="imgs/icons/align-center.png"></button>                    
-                        <button type="button" onclick="onSetTextAlign('right')"><img class="btnImg" src="imgs/icons/align-right.png"></button>
+                        <button type="button" onclick="onSetLineSize(2)"><img class="btnImg" src="css/imgs/icons/enlarge.png"></button>
+                        <button type="button" onclick="onSetLineSize(-2)"><img class="btnImg" src="css/imgs/icons/reduce.png"></button>
+                        <button type="button" onclick="onSetTextAlign('left')"><img class="btnImg" src="css/imgs/icons/align-left.png"></button>
+                        <button type="button" onclick="onSetTextAlign('center')"><img class="btnImg" src="css/imgs/icons/align-center.png"></button>                    
+                        <button type="button" onclick="onSetTextAlign('right')"><img class="btnImg" src="css/imgs/icons/align-right.png"></button>
                         <select class="selector">
                             <option>asdasd</option>
                             <option>asdasd</option>
                             <option>asdasd</option>
                         </select>
-                        <button type="button" onclick="onOpenColorPicker()"><img class="btnImg" src="imgs/icons/letter-s.png"><input type="color" class="textColor hide c22" onchange="onSetLineColor()"></button>
+
+                        <!-- <button type="button" onclick="onOpenColorPicker()"><img class="btnImg" src="imgs/icons/letter-s.png"><input type="color" class="textColor hide c22" onchange="onSetLineColor()"></button> -->
+                        <input type="color" class="textBgColor stroke-picker" onchange="onSetLineBgColor()">
                         <input type="color" class="textColor" onchange="onSetLineColor()">
                     </div>
                     <div class="stickers">
-                        <button type="button" onclick="onRenderEms(-3)"><img class="btnImg" src="imgs/icons/before.png"></button>
+                        <button type="button" onclick="onRenderEms(-3)"><img class="btnImg" src="css/imgs/icons/before.png"></button>
                         <div class="emojies-display"></div>
-                        <button type="button" onclick="onRenderEms(3)"><img class="btnImg" src="imgs/icons/next.png"></button>
+                        <button type="button" onclick="onRenderEms(3)"><img class="btnImg" src="css/imgs/icons/next.png"></button>
                     </div>
                     <div class="options">
                         <button type="button" class="share">Share</button>
