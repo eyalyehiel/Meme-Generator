@@ -6,25 +6,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/fontawesome-free-6.2.0-web/css/all.css">
 </head>
 <body onload="onInit()">
     <section class="main-layout">
         <header class="main-header">
             <h1>LOGO</h1>
             <nav class="main-nav">
-                <ul>
+                <ul class="clean-list">
                     <li>gallery</li>
                     <li>memes</li>
                 </ul>
             </nav>
         </header>
         <section class="gallery"></section>
-        <section class="meme-generator"></section>
+        <section class="meme-generator hide">
+            <main class="canvas-container">
+                <div class="canvas-place">
+                    <canvas id="my-canvas" width="500" height="500"></canvas>
+                </div>
+            </main>
+            <aside class="control-box">
+                    <input type="text" class="text" oninput="onSetLineText()">
+                    <button type="button" onclick="onMoveLine(50)"><i class="fa-solid fa-arrow-up fa-2xl"></i></button>
+                    <button type="button" onclick="onMoveLine(-50)"><i class="fa-solid fa-arrow-down fa-2xl"></i></button>
+                    <button type="button" onclick="onSetLineFocus()"><i class="fa-solid fa-arrow-down-up-across-line fa-2xl"></i></i></button>
+                    <button type="button" onclick="onAddLine()"><i class="fa-solid fa-plus fa-2xl"></i></button>
+                    <button type="button"><i class="fa-regular fa-trash-can fa-2xl"></i></button>
+                    <div class="text-manipulation">
+                        <button type="button" onclick="onSetLineSize(2)"><img class="btnImg" src="imgs/icons/enlarge.png"></button>
+                        <button type="button" onclick="onSetLineSize(-2)"><img class="btnImg" src="imgs/icons/reduce.png"></button>
+                        <button type="button" onclick="onSetTextAlign('left')"><i class="fa-solid fa-align-left fa-2xl"></i></button>
+                        <button type="button" onclick="onSetTextAlign('center')"><i class="fa-solid fa-align-center fa-2xl"></i></button>                    
+                        <button type="button" onclick="onSetTextAlign('right')"><i class="fa-solid fa-align-right fa-2xl"></i></button>
+                        <select class="selector">
+                            <option>asdasd</option>
+                            <option>asdasd</option>
+                            <option>asdasd</option>
+                        </select>
+                        <button type="button" onclick="onOpenColorPicker()"><i class="fa-solid fa-s fa-2xl"></i><input type="color" class="textColor hide c22" onchange="onSetLineColor()"></button>
+                        <input type="color" class="textColor" onchange="onSetLineColor()">
+                    </div>
+                    <div class="stickers">
+                        <button type="button"><</button>
+                        <span></span>
+                        <button type="button">></button>
+                    </div>
+                    <div class="options">
+                        <button type="button" class="share">Share</button>
+                        <button type="button" class="download">Download</button>
+                    </div>
+                
+            </aside>
+        </section>
     </section>
 
     <script src="js/services/util-service.js"></script>
     <script src="js/services/storage-service.js"></script>
     <script src="js/services/meme-service.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/meme-controller.js"></script>
+    <script src="js/gallery-controller.js"></script>
 </body>
 </html>
