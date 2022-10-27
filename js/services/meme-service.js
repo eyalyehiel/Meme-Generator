@@ -1,18 +1,20 @@
 'use strict'
-
+const SAVED_MEMES = 'memesDB'
 var gRandomStrings = [
-    'I’m jealous of my parents, I’ll never have a kid as cool as them', 
-    'Do people talk about you behind your back? Simply fart', 
-    'I’m never late. The others are just too early!', 
+    'I’m jealous of my parents, I’ll never have a kid as cool as them',
+    'Do people talk about you behind your back? Simply fart',
+    'I’m never late. The others are just too early!',
     'Doing nothing is hard, you never know when you’re done',
     'Don’t drink while driving – you might spill the beer.',
     '“Stressed” is just “desserts” spelled backwards',
     'Stupidity knows no boundaries, but it knows a lot of people.',
     'Television is a medium – anything well done is rare.'
 ]
+var gSavedMemes = []
 
-var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
-
+var gKeywordSearchCountMap = {}
+// { 'funny': 12, 'cat': 16, 'baby': 2 }
+var gFilterBy = ''
 var gImgs = [
     { id: 1, url: 'css/imgs/1.jpg', keywords: ['donald', 'trump', 'president'] },
     { id: 2, url: 'css/imgs/2.jpg', keywords: ['dog', 'puppies'] },
@@ -93,11 +95,21 @@ function setImg(imgId) {
 function getMeme() {
     return gMeme
 }
-function getRandomString(){
-    return gRandomStrings[getRandomIntInclusive(0,gRandomStrings.length-1)]
+function getRandomString() {
+    return gRandomStrings[getRandomIntInclusive(0, gRandomStrings.length - 1)]
 }
-function getImgs(){
-    return gImgs
+function getImgs() {
+    const keyWords = gKeywordSearchCountMap
+    let keys = []
+    for (const key in keyWords) {
+        keys.push(key)
+    }
+    keys = keys.filter(key => key.toLowerCase().includes(gFilterBy.toLowerCase()))
+    if(gFilterBy === '') return gImgs
+
+    var imgs = gImgs.filter(img=> img.keywords.includes(keys[0]))
+
+    return imgs
 }
 
 // Emojies Api Request
@@ -142,4 +154,32 @@ function moveClickedItem(dx, dy, clickedItem) {
     clickedItem.pos.y += dy
     clickedItem.pos.x += dx
 
+}
+
+//Save func
+function saveMeme(imgContent) {
+    let img = new Image()
+    img.src = imgContent
+
+    gSavedMemes.push(gMeme)
+
+    saveToStorage(SAVED_MEMES, gSavedMemes)
+}
+
+//gallery funcs
+function createKeyWordsMap() {
+    const imgs = gImgs
+    imgs.forEach(({ keywords }) => {
+        keywords.forEach(keyword => {
+            if (gKeywordSearchCountMap[keyword]) gKeywordSearchCountMap[keyword]++
+            else gKeywordSearchCountMap[keyword] = 1
+        })
+    })
+    console.log(gKeywordSearchCountMap);
+}
+function getKeyWordsMap() {
+    return gKeywordSearchCountMap
+}
+function filterBy(text) {
+    gFilterBy = text
 }

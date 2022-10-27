@@ -1,0 +1,288 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    height: 100vh;
+    margin: auto;
+}
+
+.main-layout>*:not(.full) {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Main Header */
+.main-header {
+    background-color: orange;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+.main-header h1 {
+    margin: 0;
+}
+
+.main-header .main-nav ul {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.main-nav ul li {
+    display: flex;
+    justify-content: center;
+}
+
+.main-nav li a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    width: 75px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-nav li a:hover {
+    box-shadow: inset 0px -3px 0px 0px
+}
+
+/* Gallery */
+.gallery {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+/* Gallery Sort */
+.gallery .gallery-sort {
+    margin-top: 10px;
+    display: grid;
+    height: 75px;
+    grid-template-columns: 1fr 0.2fr;
+    grid-row: 1fr 1fr;
+    margin-block-end: 20px;
+    gap: 5px;
+}
+
+.gallery .gallery-sort .search {
+    border-radius: 5px;
+}
+
+.gallery .gallery-sort .random-btn {
+    border-radius: 5px;
+}
+
+.gallery .gallery-sort .common-words {
+    grid-column: span 2;
+    align-self: center;
+    text-align: center;
+}
+
+/* Gallery List */
+.gallery .gallery-list {
+    display: grid;
+    grid-template-columns: repeat(3, 75px);
+    grid-template-rows: repeat(6, 1fr);
+    justify-items: center;
+    gap: 40px;
+    justify-content: center;
+}
+
+.gallery .gallery-list img {
+    width: 75px;
+    /* aspect-ratio: 1/1;
+    object-fit: contain; */
+}
+
+/* Meme Generator  */
+.meme-generator {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.meme-generator .canvas-container {
+    height: 100%;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+/* CONTROL BOX */
+.meme-generator .control-box {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 20px
+}
+
+/* TEXT */
+.meme-generator .control-box .text {
+    border-radius: 5px;
+    font-size: 2em;
+}
+
+/* MANAGE ROWS */
+.meme-generator .control-box .manage-rows {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+/* TEXT MANIPULATION */
+.meme-generator .control-box .text-manipulation {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-row: span 2;
+    gap: 10px;
+
+}
+
+.control-box .text-manipulation .selector {
+    grid-column: span 3;
+}
+
+/* STICKERS */
+.meme-generator .control-box .stickers {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+
+}
+
+.control-box .stickers .emojies-display {
+    grid-column: span 3;
+}
+
+/* OPTIONS */
+.meme-generator .control-box .options {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    gap: 10px;
+
+}
+
+.control-box .options a {
+    display: flex;
+}
+
+.control-box .options .download-btn {
+    width: 100%;
+}
+
+
+
+
+
+
+/* HELPERS */
+button {
+    border-radius: 5px;
+    border: 1px;
+}
+
+button:hover {
+    background-color: orange;
+}
+
+.hide {
+    display: none;
+}
+
+@media (min-width: 620px){
+    .main-layout>*:not(.full) {
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .gallery .gallery-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        justify-items: center;
+        gap: 2px;
+    }
+
+    .gallery .gallery-list img {
+        width: 100px;
+        aspect-ratio: 1/1;
+        object-fit: contain;
+    }
+}
+@media (min-width: 720px){
+    .main-layout>*:not(.full) {
+        width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .gallery .gallery-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        justify-items: center;
+        gap: 2px;
+    }
+
+    .gallery .gallery-list img {
+        width: 90px;
+        aspect-ratio: 1/1;
+        object-fit: contain;
+    }
+}
+
+@media (min-width: 820px) {
+
+    .main-layout>*:not(.full) {
+        width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .gallery .gallery-list {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        justify-items: center;
+        gap: 10px;
+    }
+
+    .gallery .gallery-list img {
+        width: 125px;
+        aspect-ratio: 1/1;
+        object-fit: contain;
+    }
+
+    .meme-generator {
+        flex-direction: row;
+    }
+}
+
+@media (min-width: 920px) {
+    .canvas-place {
+        width: 400px;
+        height: 400px;
+    }
+}
+
+@media (min-width: 1020px) {
+    .main-layout>*:not(.full) {
+        width: 980px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

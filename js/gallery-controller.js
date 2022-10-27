@@ -1,5 +1,6 @@
 'use strict'
 
+
 function renderGallery() {
     const imgs = getImgs()
     const strHtmls = imgs.map(({id,url}) => {
@@ -7,7 +8,6 @@ function renderGallery() {
     }).join('')
     document.querySelector('.gallery-list').innerHTML = strHtmls
 }
-
 function changeDisplay(to){
     switch(to){
         case 'gallery':
@@ -21,4 +21,27 @@ function changeDisplay(to){
             document.querySelector('.saved-memes').classList.remove('hide')
             break;
     }
+}
+function renderFilters(){
+    const keyWords = getKeyWordsMap()
+    let keys = []
+    let strHtmls = ''
+    for (const key in keyWords) {
+        keys.push(key)
+    }
+    strHtmls = keys.map(key => {
+        return `<a href="#" onclick="onFilterBy()">${key}</a>`
+    }).join(' ')
+    document.querySelector('.common-words').innerHTML = strHtmls
+    strHtmls=''
+    
+    strHtmls = keys.map(key => {
+        return `<option>${key}</option>`
+    }).join('')
+    document.querySelector('.filters').innerHTML = strHtmls
+}
+function onFilterBy(elSearch){
+    console.log(elSearch.value);
+    filterBy(elSearch.value)
+    renderGallery()
 }

@@ -9,12 +9,12 @@ let gStartPos
 function onInit() {
     gElCanvas = document.getElementById('my-canvas')
     gCtx = gElCanvas.getContext('2d')
-    getEmojies(renderEmojies)
-
+    createKeyWordsMap()
+    // getEmojies(renderEmojies)
+    renderFilters()
     renderGallery()
     addMouseListeners()
     window.addEventListener('resize', resizeCanvas)
-
 }
 
 function onImgSelect(elImg) {
@@ -214,16 +214,11 @@ function addMouseListeners() {
     gElCanvas.addEventListener('mouseup', onUp)
 }
 //Save / Download / Share
-function onSaveMeme(){
+function onSaveMeme() {
     const imgContent = gElCanvas.toDataURL('image/jpeg')
-    // console.log(imgContent);
-    let img = new Image() // Create a new html img element
-    img.src = imgContent
-    document.querySelector('.saved-memes').appendChild(img)
+    saveMeme(imgContent)
 }
-
 function downloadMeme(elLink) {
     const imgContent = gElCanvas.toDataURL('image/jpeg')
     elLink.href = imgContent
-  }
-  
+}

@@ -6,14 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meme Generator</title>
-    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <link rel="stylesheet" href="css/style2.css">
 </head>
 
 <body onload="onInit()">
+    <datalist class="filters" id="filters">
+    </datalist>
     <section class="main-layout">
-        <header class="main-header">
-            <h1>Meme Generator</h1>
-            <nav class="main-nav">
+        <header class="main-header full main-layout">
+            <h1 class="full">Meme Generator</h1>
+            <nav class="main-nav full">
                 <ul class="clean-list">
                     <li><a href="#" onclick="changeDisplay('gallery')">gallery</a></li>
                     <li><a href="#" onclick="changeDisplay('memes')">Memes</a></li>
@@ -22,28 +25,34 @@
         </header>
         <section class="gallery">
             <div class="gallery-sort">
-                <input type="text" class="search" placeholder="search something">
-                <button type="button" onclick="onRenderRandomMeme()">I`m Flexible</button>
+                <input list="filters" type="text" class="search" oninput="onFilterBy(this)"
+                    placeholder="search something">
+                <button type="button" class="random-btn" onclick="onRenderRandomMeme()">I`m Flexible</button>
+                <div class="common-words"></div>
             </div>
             <div class="gallery-list"></div>
         </section>
-        <section class="meme-generator hide">
+        <section class="meme-generator hide full">
             <main class="canvas-container">
                 <div class="canvas-place">
+                    <!-- <img src="css/imgs/10.jpg"> -->
                     <canvas id="my-canvas" width="500" height="500"></canvas>
                 </div>
             </main>
             <aside class="control-box">
                 <input type="text" class="text" oninput="onSetLineText()">
-                <button type="button" onclick="onMoveLine(-50)"><img class="btnImg"
-                        src="css/imgs/icons/up-arrow.png"></button>
-                <button type="button" onclick="onMoveLine(50)"><img class="btnImg"
-                        src="css/imgs/icons/down-arrow.png"></button>
-                <button type="button" onclick="onSetLineFocus('normal')"><img class="btnImg"
-                        src="css/imgs/icons/up-down.png"></button>
-                <button type="button" onclick="onAddLine()"><img class="btnImg" src="css/imgs/icons/plus.png"></button>
-                <button type="button" onclick="onDeleteLine()"><img class="btnImg"
-                        src="css/imgs/icons/delete.png"></button>
+                <div class="manage-rows">
+                    <button type="button" onclick="onMoveLine(-50)"><img class="btnImg"
+                            src="css/imgs/icons/up-arrow.png"></button>
+                    <button type="button" onclick="onMoveLine(50)"><img class="btnImg"
+                            src="css/imgs/icons/down-arrow.png"></button>
+                    <button type="button" onclick="onSetLineFocus('normal')"><img class="btnImg"
+                            src="css/imgs/icons/up-down.png"></button>
+                    <button type="button" onclick="onAddLine()"><img class="btnImg"
+                            src="css/imgs/icons/plus.png"></button>
+                    <button type="button" onclick="onDeleteLine()"><img class="btnImg"
+                            src="css/imgs/icons/delete.png"></button>
+                </div>
                 <div class="text-manipulation">
                     <button type="button" onclick="onSetLineSize(2)"><img class="btnImg"
                             src="css/imgs/icons/enlarge.png"></button>
