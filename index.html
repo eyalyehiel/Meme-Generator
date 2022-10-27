@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>Meme Generator</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body onload="onInit()">
     <section class="main-layout">
         <header class="main-header">
@@ -18,7 +20,13 @@
                 </ul>
             </nav>
         </header>
-        <section class="gallery"></section>
+        <section class="gallery">
+            <div class="gallery-sort">
+                <input type="text" class="search" placeholder="search something">
+                <button type="button" onclick="onRenderRandomMeme()">I`m Flexible</button>
+            </div>
+            <div class="gallery-list"></div>
+        </section>
         <section class="meme-generator hide">
             <main class="canvas-container">
                 <div class="canvas-place">
@@ -26,39 +34,53 @@
                 </div>
             </main>
             <aside class="control-box">
-                    <input type="text" class="text" oninput="onSetLineText()">
-                    <button type="button" onclick="onMoveLine(-50)"><img class="btnImg" src="css/imgs/icons/up-arrow.png"></button>
-                    <button type="button" onclick="onMoveLine(50)"><img class="btnImg" src="css/imgs/icons/down-arrow.png"></button>
-                    <button type="button" onclick="onSetLineFocus('normal')"><img class="btnImg" src="css/imgs/icons/up-down.png"></button>
-                    <button type="button" onclick="onAddLine()"><img class="btnImg" src="css/imgs/icons/plus.png"></button>
-                    <button type="button" onclick="onDeleteLine()"><img class="btnImg" src="css/imgs/icons/delete.png"></button>
-                    <div class="text-manipulation">
-                        <button type="button" onclick="onSetLineSize(2)"><img class="btnImg" src="css/imgs/icons/enlarge.png"></button>
-                        <button type="button" onclick="onSetLineSize(-2)"><img class="btnImg" src="css/imgs/icons/reduce.png"></button>
-                        <button type="button" onclick="onSetTextAlign('left')"><img class="btnImg" src="css/imgs/icons/align-left.png"></button>
-                        <button type="button" onclick="onSetTextAlign('center')"><img class="btnImg" src="css/imgs/icons/align-center.png"></button>                    
-                        <button type="button" onclick="onSetTextAlign('right')"><img class="btnImg" src="css/imgs/icons/align-right.png"></button>
-                        <select class="selector">
-                            <option>asdasd</option>
-                            <option>asdasd</option>
-                            <option>asdasd</option>
-                        </select>
-
-                        <!-- <button type="button" onclick="onOpenColorPicker()"><img class="btnImg" src="imgs/icons/letter-s.png"><input type="color" class="textColor hide c22" onchange="onSetLineColor()"></button> -->
-                        <input type="color" class="textBgColor stroke-picker" onchange="onSetLineBgColor()">
-                        <input type="color" class="textColor" onchange="onSetLineColor()">
-                    </div>
-                    <div class="stickers">
-                        <button type="button" onclick="onRenderEms(-3)"><img class="btnImg" src="css/imgs/icons/before.png"></button>
-                        <div class="emojies-display"></div>
-                        <button type="button" onclick="onRenderEms(3)"><img class="btnImg" src="css/imgs/icons/next.png"></button>
-                    </div>
-                    <div class="options">
-                        <button type="button" class="share">Share</button>
-                        <button type="button" class="download">Download</button>
-                    </div>
-                
+                <input type="text" class="text" oninput="onSetLineText()">
+                <button type="button" onclick="onMoveLine(-50)"><img class="btnImg"
+                        src="css/imgs/icons/up-arrow.png"></button>
+                <button type="button" onclick="onMoveLine(50)"><img class="btnImg"
+                        src="css/imgs/icons/down-arrow.png"></button>
+                <button type="button" onclick="onSetLineFocus('normal')"><img class="btnImg"
+                        src="css/imgs/icons/up-down.png"></button>
+                <button type="button" onclick="onAddLine()"><img class="btnImg" src="css/imgs/icons/plus.png"></button>
+                <button type="button" onclick="onDeleteLine()"><img class="btnImg"
+                        src="css/imgs/icons/delete.png"></button>
+                <div class="text-manipulation">
+                    <button type="button" onclick="onSetLineSize(2)"><img class="btnImg"
+                            src="css/imgs/icons/enlarge.png"></button>
+                    <button type="button" onclick="onSetLineSize(-2)"><img class="btnImg"
+                            src="css/imgs/icons/reduce.png"></button>
+                    <button type="button" onclick="onSetTextAlign('left')"><img class="btnImg"
+                            src="css/imgs/icons/align-left.png"></button>
+                    <button type="button" onclick="onSetTextAlign('center')"><img class="btnImg"
+                            src="css/imgs/icons/align-center.png"></button>
+                    <button type="button" onclick="onSetTextAlign('right')"><img class="btnImg"
+                            src="css/imgs/icons/align-right.png"></button>
+                    <select class="selector">
+                        <option>asdasd</option>
+                        <option>asdasd</option>
+                        <option>asdasd</option>
+                    </select>
+                    <input type="color" class="textBgColor" onchange="onSetLineBgColor()">
+                    <input type="color" class="textColor" onchange="onSetLineColor()">
+                </div>
+                <div class="stickers">
+                    <button type="button" onclick="onRenderEms(-3)"><img class="btnImg"
+                            src="css/imgs/icons/before.png"></button>
+                    <div class="emojies-display"></div>
+                    <button type="button" onclick="onRenderEms(3)"><img class="btnImg"
+                            src="css/imgs/icons/next.png"></button>
+                </div>
+                <div class="options">
+                    <button type="button" class="share">Share</button>
+                    <button type="button" class="save" onclick="onSaveMeme()">Save</button>
+                    <a class="download" href="#" onclick="downloadMeme(this)" download="my-meme.jpg">
+                        <button type="button" class="download-btn">Download</button>
+                    </a>
+                </div>
             </aside>
+        </section>
+        <section class="saved-memes hide">
+            No Saved Memes
         </section>
     </section>
 
@@ -68,4 +90,5 @@
     <script src="js/services/meme-service.js"></script>
     <script src="js/gallery-controller.js"></script>
 </body>
+
 </html>

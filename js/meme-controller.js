@@ -9,6 +9,7 @@ let gStartPos
 function onInit() {
     gElCanvas = document.getElementById('my-canvas')
     gCtx = gElCanvas.getContext('2d')
+    getEmojies(renderEmojies)
 
     renderGallery()
     addMouseListeners()
@@ -18,17 +19,37 @@ function onInit() {
 
 function onImgSelect(elImg) {
     document.querySelector('.gallery').classList.add('hide')
+    document.querySelector('.saved-memes').classList.add('hide')
     document.querySelector('.meme-generator').classList.remove('hide')
 
     const imgId = elImg.getAttribute('data-id')
     setImg(imgId)
 
-    getEmojies(renderEmojies)
+
     resizeCanvas()
     renderMeme()
     onSetLineFocus()
 }
+function onRenderRandomMeme() {
+    document.querySelector('.gallery').classList.add('hide')
+    document.querySelector('.meme-generator').classList.remove('hide')
+    const imgId = getRandomIntInclusive(1, gImgs.length)
+    setImg(imgId)
 
+    const linesLength = getRandomIntInclusive(1, 2)
+    getMeme().lines = []
+    for (var i = 0; i < linesLength; i++) {
+        var str = getRandomString()
+        addLine(str)
+        setLineColor(randomColor(), i)
+        setLineBgColor(randomColor(), i)
+        setLineSize(getRandomIntInclusive(3, 18), i)
+    }
+
+    resizeCanvas()
+    renderMeme()
+    onSetLineFocus()
+}
 // Meme manipultaions
 function onSetLineText() {
     const text = document.querySelector('.text').value
@@ -40,7 +61,7 @@ function onSetLineColor() {
     setLineColor(textColor, gFocusedLineIdx)
     renderMeme()
 }
-function onSetLineBgColor(){
+function onSetLineBgColor() {
     const textBgColor = document.querySelector('.textBgColor').value
     setLineBgColor(textBgColor, gFocusedLineIdx)
     renderMeme()
@@ -73,19 +94,16 @@ function onSetEmoji(elEmoji) {
     addLine(elEmoji.innerText)
     renderMeme()
 }
-function onDeleteLine(){
+function onDeleteLine() {
     deleteLine(gFocusedLineIdx)
     const linesLength = getMeme().lines.length
-    if(linesLength === 0) {
+    if (linesLength === 0) {
         renderMeme()
         return
     }
     onSetLineFocus()
     renderMeme()
 }
-
-
-
 // Render Funcs
 function renderMeme() {
     const { selectedImgId, lines } = getMeme()
@@ -97,25 +115,25 @@ function drawImg(selectedImgId, lines) {
     img.src = `css/imgs/${selectedImgId}.jpg`
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-        lines.forEach(({ txt, color, size, bgColor, pos,align }) => {
+        lines.forEach(({ txt, color, size, bgColor, pos, align }) => {
             switch (align) {
                 case 'left':
                     // pos.x = 10;
-                    drawText(txt, color, size,bgColor, pos);
+                    drawText(txt, color, size, bgColor, pos);
                     break;
                 case 'center':
                     // pos.x = gElCanvas.width / 2 - gCtx.measureText(txt).width / 2;
-                    drawText(txt, color, size,bgColor, pos);
+                    drawText(txt, color, size, bgColor, pos);
                     break;
                 case 'right':
                     // pos.x = gElCanvas.width - gCtx.measureText(txt).width - 10;
-                    drawText(txt, color, size,bgColor, pos);
+                    drawText(txt, color, size, bgColor, pos);
                     break;
             }
         });
     }
 }
-function drawText(txt, color, size,bgColor, pos) {
+function drawText(txt, color, size, bgColor, pos) {
     gCtx.lineWidth = 2
     gCtx.strokeStyle = bgColor
     gCtx.fillStyle = color
@@ -124,7 +142,6 @@ function drawText(txt, color, size,bgColor, pos) {
     gCtx.fillText(txt, pos.x, pos.y)
     gCtx.strokeText(txt, pos.x, pos.y)
 }
-
 // Canvas
 function resizeCanvas(ev) {
     const elContainer = document.querySelector('.canvas-place')
@@ -132,7 +149,6 @@ function resizeCanvas(ev) {
     gElCanvas.height = elContainer.offsetWidth
     renderMeme()
 }
-
 // Emijies
 function renderEmojies(res) {
     let strHtmls = ''
@@ -145,30 +161,25 @@ function onRenderEms(diff) {
     emojiIdx += diff
     getEmojies(renderEmojies)
 }
-
-
-
 //Drag and Drop
 function getEvPos(ev) {
 
     //Gets the offset pos , the default pos
     let pos = {
-      x: ev.offsetX,
-      y: ev.offsetY
+        x: ev.offsetX,
+        y: ev.offsetY
     }
     return pos
 }
-
-
 //Move Funcs
 function onDown(ev) {
 
     //Get the ev pos from mouse or touch
     const pos = getEvPos(ev)
-    const {clickedItem, isClicked} = isItemClicked(pos)
+    const { clickedItem, isClicked } = isItemClicked(pos)
     // console.log(isClicked);
     if (!isClicked) return
-    setItemDrag(true,clickedItem)
+    setItemDrag(true, clickedItem)
     //Save the pos we start from 
     gStartPos = pos
     document.querySelector('.canvas-place').style.cursor = 'grabbing'
@@ -178,12 +189,12 @@ function onMove(ev) {
     const clickedItem = getItemDrag()
     // console.log(clickedItem);
     if (!clickedItem) return
-    if(!clickedItem.isDrag) return
+    if (!clickedItem.isDrag) return
     const pos = getEvPos(ev)
     //Calc the delta , the diff we moved
     const dx = pos.x - gStartPos.x
     const dy = pos.y - gStartPos.y
-    moveClickedItem(dx, dy,clickedItem)
+    moveClickedItem(dx, dy, clickedItem)
     //Save the last pos , we remember where we`ve been and move accordingly
     gStartPos = pos
     //The canvas is render again after every move
@@ -193,12 +204,26 @@ function onMove(ev) {
 function onUp() {
 
     const clickedItem = getItemDrag()
-    if(!clickedItem) return
-    setItemDrag(false,clickedItem)
+    if (!clickedItem) return
+    setItemDrag(false, clickedItem)
     document.querySelector('.canvas-place').style.cursor = 'pointer'
 }
 function addMouseListeners() {
     gElCanvas.addEventListener('mousedown', onDown)
     gElCanvas.addEventListener('mousemove', onMove)
     gElCanvas.addEventListener('mouseup', onUp)
+}
+//Save / Download / Share
+function onSaveMeme(){
+    const imgContent = gElCanvas.toDataURL('image/jpeg')
+    // console.log(imgContent);
+    let img = new Image() // Create a new html img element
+    img.src = imgContent
+    document.querySelector('.saved-memes').appendChild(img)
+}
+
+function downloadMeme(elLink) {
+    const imgContent = gElCanvas.toDataURL('image/jpeg')
+    elLink.href = imgContent
   }
+  

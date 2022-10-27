@@ -1,11 +1,11 @@
 'use strict'
 
 function renderGallery() {
-    var strHtmls = ''
-    for (var i = 1; i < 18; i++) {
-        strHtmls += `<img onclick="onImgSelect(this)" data-id="${i}" src="css/imgs/${i}.jpg">`
-    }
-    document.querySelector('.gallery').innerHTML = strHtmls
+    const imgs = getImgs()
+    const strHtmls = imgs.map(({id,url}) => {
+        return `<img onclick="onImgSelect(this)" data-id="${id}" src="${url}">`
+    }).join('')
+    document.querySelector('.gallery-list').innerHTML = strHtmls
 }
 
 function changeDisplay(to){
@@ -13,10 +13,12 @@ function changeDisplay(to){
         case 'gallery':
             document.querySelector('.gallery').classList.remove('hide')
             document.querySelector('.meme-generator').classList.add('hide')
+            document.querySelector('.saved-memes').classList.add('hide')
             break;
             case 'memes':
             document.querySelector('.gallery').classList.add('hide')
             document.querySelector('.meme-generator').classList.add('hide')
+            document.querySelector('.saved-memes').classList.remove('hide')
             break;
     }
 }

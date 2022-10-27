@@ -1,8 +1,38 @@
 'use strict'
 
+var gRandomStrings = [
+    'I’m jealous of my parents, I’ll never have a kid as cool as them', 
+    'Do people talk about you behind your back? Simply fart', 
+    'I’m never late. The others are just too early!', 
+    'Doing nothing is hard, you never know when you’re done',
+    'Don’t drink while driving – you might spill the beer.',
+    '“Stressed” is just “desserts” spelled backwards',
+    'Stupidity knows no boundaries, but it knows a lot of people.',
+    'Television is a medium – anything well done is rare.'
+]
+
 var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
 
-var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['funny', 'cat'] }];
+var gImgs = [
+    { id: 1, url: 'css/imgs/1.jpg', keywords: ['donald', 'trump', 'president'] },
+    { id: 2, url: 'css/imgs/2.jpg', keywords: ['dog', 'puppies'] },
+    { id: 3, url: 'css/imgs/3.jpg', keywords: ['dog', 'baby', 'sleep'] },
+    { id: 4, url: 'css/imgs/4.jpg', keywords: ['cat', 'keyboard'] },
+    { id: 5, url: 'css/imgs/5.jpg', keywords: ['baby', 'angry'] },
+    { id: 6, url: 'css/imgs/6.jpg', keywords: ['funny', 'cat'] },
+    { id: 7, url: 'css/imgs/7.jpg', keywords: ['baby', 'funny'] },
+    { id: 8, url: 'css/imgs/8.jpg', keywords: ['funny', 'clown'] },
+    { id: 9, url: 'css/imgs/9.jpg', keywords: ['baby', 'grass'] },
+    { id: 10, url: 'css/imgs/10.jpg', keywords: ['obama', 'president'] },
+    { id: 11, url: 'css/imgs/11.jpg', keywords: ['funny', 'kiss'] },
+    { id: 12, url: 'css/imgs/12.jpg', keywords: ['old', 'tv'] },
+    { id: 13, url: 'css/imgs/13.jpg', keywords: ['hollywood', 'tv', 'actor'] },
+    { id: 14, url: 'css/imgs/14.jpg', keywords: ['hollywood', 'tv', 'actor'] },
+    { id: 15, url: 'css/imgs/15.jpg', keywords: ['tv', 'actor'] },
+    { id: 16, url: 'css/imgs/16.jpg', keywords: ['movie', 'funny', 'actor'] },
+    { id: 17, url: 'css/imgs/17.jpg', keywords: ['president', 'putin', 'russia'] },
+    { id: 18, url: 'css/imgs/18.jpg', keywords: ['funny', 'movie', 'kids'] },
+];
 
 var gMeme = {
     selectedImgId: 5,
@@ -20,9 +50,9 @@ var gMeme = {
     ]
 }
 
-function addLine(emoji) {
+function addLine(str) {
     gMeme.lines.push({
-        txt: emoji || 'TEXT',
+        txt: str || 'TEXT',
         size: 20,
         align: 'left',
         color: 'red',
@@ -37,7 +67,7 @@ function setLineText(text, idx) {
 function setLineColor(color, idx) {
     gMeme.lines[idx].color = color
 }
-function setLineBgColor(bgColor,idx){
+function setLineBgColor(bgColor, idx) {
     gMeme.lines[idx].bgColor = bgColor
 }
 function setLineSize(diff, idx) {
@@ -52,8 +82,8 @@ function moveLine(diff, idx) {
     if (currPosY + diff < 25 || currPosY + diff > gElCanvas.height - 25) return
     gMeme.lines[idx].pos.y += diff
 }
-function deleteLine(idx){
-    gMeme.lines.splice(idx,1)
+function deleteLine(idx) {
+    gMeme.lines.splice(idx, 1)
 }
 
 
@@ -63,8 +93,14 @@ function setImg(imgId) {
 function getMeme() {
     return gMeme
 }
+function getRandomString(){
+    return gRandomStrings[getRandomIntInclusive(0,gRandomStrings.length-1)]
+}
+function getImgs(){
+    return gImgs
+}
 
-
+// Emojies Api Request
 function getEmojies(cb) {
     const XHR = new XMLHttpRequest()
     XHR.onreadystatechange = () => {
@@ -77,8 +113,7 @@ function getEmojies(cb) {
     XHR.open('GET', 'https://emoji-api.com/emojis?access_key=b4b7a789646e16e7dce1e4dac3102e7c0f1aade6')
     XHR.send()
 }
-
-
+// Service Move Funcs
 function isItemClicked(clickedPos) {
     const memeLines = gMeme.lines
 
@@ -92,11 +127,9 @@ function isItemClicked(clickedPos) {
     if (clickedItem) return { clickedItem, isClicked: true }
     return false
 }
-
 function setItemDrag(isDrag, clickedItem) {
     clickedItem.isDrag = isDrag
 }
-
 function getItemDrag() {
     var line = gMeme.lines.find((line) => {
         return line.isDrag === true
@@ -104,7 +137,6 @@ function getItemDrag() {
 
     return line
 }
-
 function moveClickedItem(dx, dy, clickedItem) {
 
     clickedItem.pos.y += dy
