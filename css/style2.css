@@ -253,6 +253,12 @@ button:hover {
     text-align: center;
     transition: transform 0.4s;
 }
+.share-modal .close-btn{
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    font-size: 1.5em;
+}
 .share-modal .share-container{
     margin-bottom: 5px;
 }
@@ -265,7 +271,8 @@ button:hover {
     padding: 5px;
 }
 .share-modal .share-btn:hover {
-    background-color: orange;
+    background-color: rgb(27 116 228);
+    color: white;
 }
 /* Media Queries */
 

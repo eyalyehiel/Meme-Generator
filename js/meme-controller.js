@@ -235,3 +235,7 @@ function downloadMeme(elLink) {
     const imgContent = gElCanvas.toDataURL('image/jpeg')
     elLink.href = imgContent
 }
+// Modal
+function onCloseModal(){
+    document.querySelector('.share-modal').style.transform = 'translateX(50%) translateY(-100%)'
+}
