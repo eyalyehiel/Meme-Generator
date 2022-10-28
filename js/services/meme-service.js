@@ -43,7 +43,6 @@ var gMeme = {
         {
             txt: 'I sometimes eat Falafel',
             size: 20,
-            align: 'left',
             color: 'red',
             bgColor: 'red',
             pos: { x: 10, y: 50 },
@@ -56,7 +55,6 @@ function addLine(str) {
     gMeme.lines.push({
         txt: str || 'TEXT',
         size: 20,
-        align: 'left',
         color: 'red',
         bgColor: 'red',
         pos: { x: 10, y: 50 },
@@ -77,7 +75,13 @@ function setLineSize(diff, idx) {
 
 }
 function setTextAlign(alignment, idx) {
-    gMeme.lines[idx].align = alignment
+    let currLine = gMeme.lines[idx]
+    switch(alignment){
+        case 'left': currLine.pos.x = 10; break;
+        case 'right': currLine.pos.x = gElCanvas.width - gCtx.measureText(currLine.txt).width - 10; break;
+        case 'center': currLine.pos.x = gElCanvas.width / 2 - gCtx.measureText(currLine.txt).width / 2; break;
+    }
+    gStartPos = currLine.pos
 }
 function moveLine(diff, idx) {
     let currPosY = gMeme.lines[idx].pos.y
@@ -133,7 +137,7 @@ function isItemClicked(clickedPos) {
         const distance = Math.sqrt((pos.x - clickedPos.x) ** 2)
         const distanceY = Math.sqrt((pos.y - clickedPos.y) ** 2)
 
-        return distance + pos.x >= pos.x && distance + pos.x <= gCtx.measureText(txt).width && distanceY + pos.y >= pos.y && distanceY + pos.y <= pos.y + size
+        return distance + pos.x >= pos.x && distance <= gCtx.measureText(txt).width && distanceY + pos.y >= pos.y && distanceY + pos.y <= pos.y + size
 
     })
     if (clickedItem) return { clickedItem, isClicked: true }
@@ -150,7 +154,7 @@ function getItemDrag() {
     return line
 }
 function moveClickedItem(dx, dy, clickedItem) {
-
+    // console.log('clickedItem',clickedItem)
     clickedItem.pos.y += dy
     clickedItem.pos.x += dx
 

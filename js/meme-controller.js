@@ -5,6 +5,7 @@ let gCtx
 let gFocusedLineIdx = 0
 let emojiIdx = 0
 let gStartPos
+const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 
 function onInit() {
     gElCanvas = document.getElementById('my-canvas')
@@ -13,7 +14,7 @@ function onInit() {
     // getEmojies(renderEmojies)
     renderFilters()
     renderGallery()
-    addMouseListeners()
+    addEventListeners()
     window.addEventListener('resize', resizeCanvas)
 }
 
@@ -116,27 +117,28 @@ function drawImg(selectedImgId, lines) {
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
         lines.forEach(({ txt, color, size, bgColor, pos, align }) => {
-            switch (align) {
-                case 'left':
-                    // pos.x = 10;
-                    drawText(txt, color, size, bgColor, pos);
-                    break;
-                case 'center':
-                    // pos.x = gElCanvas.width / 2 - gCtx.measureText(txt).width / 2;
-                    drawText(txt, color, size, bgColor, pos);
-                    break;
-                case 'right':
-                    // pos.x = gElCanvas.width - gCtx.measureText(txt).width - 10;
-                    drawText(txt, color, size, bgColor, pos);
-                    break;
-            }
+            // switch (align) {
+            //     case 'left':
+            //         // pos.x = 10;
+            //         drawText(txt, color, size, bgColor, pos);
+            //         break;
+            //     case 'center':
+            //         // pos.x = gElCanvas.width / 2 - gCtx.measureText(txt).width / 2;
+            //         drawText(txt, color, size, bgColor, pos);
+            //         break;
+            //     case 'right':
+            //         // pos.x = gElCanvas.width - gCtx.measureText(txt).width - 10;
+            //         drawText(txt, color, size, bgColor, pos);
+            //         break;
+            // }
+            drawText(txt, color, size, bgColor,pos)
         });
     }
 }
 function drawText(txt, color, size, bgColor, pos) {
     gCtx.lineWidth = 2
-    gCtx.strokeStyle = bgColor
-    gCtx.fillStyle = color
+    gCtx.strokeStyle = color
+    gCtx.fillStyle = bgColor
 
     gCtx.font = `${size}px Arial`
     gCtx.fillText(txt, pos.x, pos.y)
@@ -169,6 +171,17 @@ function getEvPos(ev) {
         x: ev.offsetX,
         y: ev.offsetY
     }
+    if (TOUCH_EVS.includes(ev.type)) {
+        //soo we will not trigger the mouse ev
+        ev.preventDefault()
+        //Gets the first touch point
+        ev = ev.changedTouches[0]
+        //Calc the right pos according to the touch screen
+        pos = {
+          x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+          y: ev.pageY - ev.target.offsetTop - ev.target.clientTop
+        }
+      }
     return pos
 }
 //Move Funcs
@@ -208,10 +221,15 @@ function onUp() {
     setItemDrag(false, clickedItem)
     document.querySelector('.canvas-place').style.cursor = 'pointer'
 }
-function addMouseListeners() {
+function addEventListeners() {
+    //Mouse events
     gElCanvas.addEventListener('mousedown', onDown)
     gElCanvas.addEventListener('mousemove', onMove)
     gElCanvas.addEventListener('mouseup', onUp)
+    //Touch events
+    gElCanvas.addEventListener('touchmove', onMove)
+    gElCanvas.addEventListener('touchstart', onDown)
+    gElCanvas.addEventListener('touchend', onUp)
 }
 //Save / Download / Share
 function onSaveMeme() {

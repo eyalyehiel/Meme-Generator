@@ -69,8 +69,16 @@
                         <option>asdasd</option>
                         <option>asdasd</option>
                     </select>
-                    <input type="color" class="textBgColor" onchange="onSetLineBgColor()">
-                    <input type="color" class="textColor" onchange="onSetLineColor()">
+                    <button class="pallete-holder">
+                        <img class="btnImg" src="css/imgs/icons/color-palette.png">
+                        <input type="color" class="textBgColor pallete" onchange="onSetLineBgColor()">
+                    </button>
+                    <button class="pallete-holder">
+                        <img class="btnImg" src="css/imgs/icons/letter-s.png">
+                        <input type="color" class="textColor pallete" onchange="onSetLineColor()">
+                    </button>
+                    <!-- <input type="color" class="textBgColor pallete" onchange="onSetLineBgColor()">
+                    <input type="color" class="textColor pallete" onchange="onSetLineColor()"> -->
                 </div>
                 <div class="stickers">
                     <button type="button" onclick="onRenderEms(-3)"><img class="btnImg"

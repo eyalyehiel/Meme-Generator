@@ -125,6 +125,7 @@ body {
     display: grid;
     align-items: center;
     justify-items: center;
+    margin-bottom: 10px;
 }
 .meme-generator .canvas-container .canvas-place {
     width: 300px;
@@ -165,6 +166,25 @@ body {
 
 .control-box .text-manipulation .selector {
     grid-column: span 3;
+}
+
+.control-box .text-manipulation .pallete-holder {
+    position: relative;
+    /* position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; */
+}
+.text-manipulation .pallete-holder .pallete {
+    /* position: relative; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
 }
 
 /* STICKERS */
@@ -217,43 +237,39 @@ button:hover {
 @media (min-width: 620px){
     .main-layout>*:not(.full) {
         width: 600px;
-        margin-left: auto;
-        margin-right: auto;
     }
 
     .gallery .gallery-list {
-        display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(5, 1fr);
-        justify-items: center;
         gap: 2px;
     }
 
     .gallery .gallery-list img {
         width: 100px;
-        aspect-ratio: 1/1;
-        object-fit: contain;
+    }
+    .meme-generator .canvas-container .canvas-place {
+        width: 400px;
+        height: 400px;
     }
 }
 @media (min-width: 720px){
     .main-layout>*:not(.full) {
         width: 700px;
-        /* margin-left: auto;
-        margin-right: auto; */
     }
-
-    .gallery .gallery-list {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(5, 1fr);
-        justify-items: center;
-        gap: 2px;
-    }
-
     .gallery .gallery-list img {
         width: 90px;
-        aspect-ratio: 1/1;
-        object-fit: contain;
+    }
+    .meme-generator {
+        flex-direction: row;
+    }
+    .meme-generator .canvas-container {
+        margin-inline-end: 10px;
+    }
+    
+    .meme-generator .canvas-container .canvas-place {
+        width: 350px;
+        height: 350px;
     }
 }
 
@@ -261,40 +277,29 @@ button:hover {
 
     .main-layout>*:not(.full) {
         width: 800px;
-        margin-left: auto;
-        margin-right: auto;
     }
 
     .gallery .gallery-list {
-        display: grid;
         grid-template-columns: repeat(5, 1fr);
         grid-template-rows: repeat(4, 1fr);
-        justify-items: center;
         gap: 10px;
     }
 
     .gallery .gallery-list img {
         width: 125px;
-        aspect-ratio: 1/1;
-        object-fit: contain;
-    }
-
-    .meme-generator {
-        flex-direction: row;
     }
 }
 
 @media (min-width: 920px) {
-    .canvas-place {
-        width: 400px;
-        height: 400px;
+    .meme-generator .canvas-container .canvas-place {
+        width: 500px;
+        height: 500px;
     }
+
 }
 
 @media (min-width: 1020px) {
     .main-layout>*:not(.full) {
         width: 980px;
-        margin-left: auto;
-        margin-right: auto;
     }
 }
