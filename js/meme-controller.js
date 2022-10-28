@@ -11,7 +11,7 @@ function onInit() {
     gElCanvas = document.getElementById('my-canvas')
     gCtx = gElCanvas.getContext('2d')
     createKeyWordsMap()
-    // getEmojies(renderEmojies)
+    renderEmojies()
     renderFilters()
     renderGallery()
     addEventListeners()
@@ -91,6 +91,11 @@ function onMoveLine(diff) {
     moveLine(+diff, gFocusedLineIdx)
     renderMeme()
 }
+function onSetLineFont(elSelect){
+    console.log(elSelect);
+    setLineFont(elSelect,gFocusedLineIdx)
+    renderMeme()
+}
 function onSetEmoji(elEmoji) {
     addLine(elEmoji.innerText)
     renderMeme()
@@ -114,54 +119,44 @@ function renderMeme() {
 function drawImg(selectedImgId, lines) {
     const img = new Image()
     img.src = `css/imgs/${selectedImgId}.jpg`
+
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-        lines.forEach(({ txt, color, size, bgColor, pos, align }) => {
-            // switch (align) {
-            //     case 'left':
-            //         // pos.x = 10;
-            //         drawText(txt, color, size, bgColor, pos);
-            //         break;
-            //     case 'center':
-            //         // pos.x = gElCanvas.width / 2 - gCtx.measureText(txt).width / 2;
-            //         drawText(txt, color, size, bgColor, pos);
-            //         break;
-            //     case 'right':
-            //         // pos.x = gElCanvas.width - gCtx.measureText(txt).width - 10;
-            //         drawText(txt, color, size, bgColor, pos);
-            //         break;
-            // }
-            drawText(txt, color, size, bgColor,pos)
+        lines.forEach(({ txt, color, size, bgColor, pos, font }) => {
+            drawText(txt, color, size, bgColor,pos,font)
         });
     }
 }
-function drawText(txt, color, size, bgColor, pos) {
+function drawText(txt, color, size, bgColor, pos,font) {
     gCtx.lineWidth = 2
     gCtx.strokeStyle = color
     gCtx.fillStyle = bgColor
 
-    gCtx.font = `${size}px Arial`
+    gCtx.font = `${size}px ${font}`
     gCtx.fillText(txt, pos.x, pos.y)
     gCtx.strokeText(txt, pos.x, pos.y)
 }
 // Canvas
-function resizeCanvas(ev) {
+function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-place')
     gElCanvas.width = elContainer.offsetWidth
     gElCanvas.height = elContainer.offsetWidth
     renderMeme()
 }
 // Emijies
-function renderEmojies(res) {
+function renderEmojies() {
+    let emojisDisplay = document.querySelector('.emojies-display')
+    var emojies =getEmojies()
+    console.log(emojies);
     let strHtmls = ''
     for (var i = emojiIdx; i < emojiIdx + 3; i++) {
-        strHtmls += `<div class="emoji-preview" onclick="onSetEmoji(this)">${res[i].character}</div>`
+        strHtmls += `<button class="emoji-preview" onclick="onSetEmoji(this)">${emojies[i]}</button>`
     }
-    document.querySelector('.emojies-display').innerHTML = strHtmls
+    emojisDisplay.innerHTML = strHtmls
 }
 function onRenderEms(diff) {
     emojiIdx += diff
-    getEmojies(renderEmojies)
+    renderEmojies()
 }
 //Drag and Drop
 function getEvPos(ev) {

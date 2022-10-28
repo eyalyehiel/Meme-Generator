@@ -64,10 +64,10 @@
                             src="css/imgs/icons/align-center.png"></button>
                     <button type="button" onclick="onSetTextAlign('right')"><img class="btnImg"
                             src="css/imgs/icons/align-right.png"></button>
-                    <select class="selector">
-                        <option>asdasd</option>
-                        <option>asdasd</option>
-                        <option>asdasd</option>
+                    <select onchange="onSetLineFont(this.value)" class="selector">
+                        <option>Impact</option>
+                        <option>Arial</option>
+                        <option>Fredoka</option>
                     </select>
                     <button class="pallete-holder">
                         <img class="btnImg" src="css/imgs/icons/color-palette.png">
@@ -88,7 +88,7 @@
                             src="css/imgs/icons/next.png"></button>
                 </div>
                 <div class="options">
-                    <button type="button" class="share">Share</button>
+                    <button type="button" class="share" onclick="uploadImg()">Share</button>
                     <button type="button" class="save" onclick="onSaveMeme()">Save</button>
                     <a class="download" href="#" onclick="downloadMeme(this)" download="my-meme.jpg">
                         <button type="button" class="download-btn">Download</button>
@@ -100,6 +100,10 @@
             No Saved Memes
         </section>
     </section>
+    <div class="share-modal">
+        <p class="user-msg"></p>
+        <div class="share-container"></div>
+    </div>
 
     <script src="js/services/util-service.js"></script>
     <script src="js/services/storage-service.js"></script>

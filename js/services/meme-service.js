@@ -11,7 +11,7 @@ var gRandomStrings = [
     'Television is a medium – anything well done is rare.'
 ]
 var gSavedMemes = []
-
+var gEmojis = `😃😄😁😆😅😂🤣🥲😊😇🙂🙃😉😌😍🥰😘😗😙😚😋😛😝😜🤪🤨🧐🤓😎🥸🤩🥳😏😒😞😔😟😕🙁`
 var gKeywordSearchCountMap = {}
 // { 'funny': 12, 'cat': 16, 'baby': 2 }
 var gFilterBy = ''
@@ -42,6 +42,7 @@ var gMeme = {
     lines: [
         {
             txt: 'I sometimes eat Falafel',
+            font: 'Impact',
             size: 20,
             color: 'red',
             bgColor: 'red',
@@ -54,6 +55,7 @@ var gMeme = {
 function addLine(str) {
     gMeme.lines.push({
         txt: str || 'TEXT',
+        font: 'Impact',
         size: 20,
         color: 'red',
         bgColor: 'red',
@@ -76,7 +78,7 @@ function setLineSize(diff, idx) {
 }
 function setTextAlign(alignment, idx) {
     let currLine = gMeme.lines[idx]
-    switch(alignment){
+    switch (alignment) {
         case 'left': currLine.pos.x = 10; break;
         case 'right': currLine.pos.x = gElCanvas.width - gCtx.measureText(currLine.txt).width - 10; break;
         case 'center': currLine.pos.x = gElCanvas.width / 2 - gCtx.measureText(currLine.txt).width / 2; break;
@@ -90,6 +92,9 @@ function moveLine(diff, idx) {
 }
 function deleteLine(idx) {
     gMeme.lines.splice(idx, 1)
+}
+function setLineFont(value, idx) {
+    gMeme.lines[idx].font = value
 }
 
 
@@ -109,25 +114,16 @@ function getImgs() {
         keys.push(key)
     }
     keys = keys.filter(key => key.toLowerCase().includes(gFilterBy.toLowerCase()))
-    if(gFilterBy === '') return gImgs
+    if (gFilterBy === '') return gImgs
 
-    var imgs = gImgs.filter(img=> img.keywords.includes(keys[0]))
+    var imgs = gImgs.filter(img => img.keywords.includes(keys[0]))
 
     return imgs
 }
 
-// Emojies Api Request
-function getEmojies(cb) {
-    const XHR = new XMLHttpRequest()
-    XHR.onreadystatechange = () => {
-        if (XHR.readyState === XMLHttpRequest.DONE && XHR.status === 200) {
-            var res = JSON.parse(XHR.responseText)
-            cb(res)
-        }
-    }
-
-    XHR.open('GET', 'https://emoji-api.com/emojis?access_key=b4b7a789646e16e7dce1e4dac3102e7c0f1aade6')
-    XHR.send()
+// Emojies
+function getEmojies() {
+    return gEmojis.split(/(?:)/u)
 }
 // Service Move Funcs
 function isItemClicked(clickedPos) {
@@ -169,6 +165,42 @@ function saveMeme(imgContent) {
 
     saveToStorage(SAVED_MEMES, gSavedMemes)
 }
+
+function uploadImg() {
+    const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
+
+    function onSuccess(uploadedImgUrl) {
+        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        console.log(encodedUploadedImgUrl)
+        document.querySelector('.user-msg').innerText = `Your photo is available here: ${uploadedImgUrl}`
+        document.querySelector('.share-container').innerHTML = `
+          <a class="share-btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+             Share in facebook  
+          </a>`
+          document.querySelector('.share-modal').style.transform = 'translateX(50%) translateY(0)'
+    }
+    doUploadImg(imgDataUrl, onSuccess)
+}
+function doUploadImg(imgDataUrl, onSuccess) {
+    const formData = new FormData()
+    formData.append('img', imgDataUrl)
+
+    const XHR = new XMLHttpRequest()
+    XHR.onreadystatechange = () => {
+        if (XHR.readyState !== XMLHttpRequest.DONE) return
+        if (XHR.status !== 200) return console.error('Error uploading image')
+        const { responseText: url } = XHR
+        console.log('Got back live url:', url)
+        onSuccess(url)
+    }
+    XHR.onerror = (req, ev) => {
+        console.error('Error connecting to server with request:', req, '\nGot response data:', ev)
+    }
+    XHR.open('POST', '//ca-upload.com/here/upload.php')
+    XHR.send(formData)
+}
+
+
 
 //gallery funcs
 function createKeyWordsMap() {
