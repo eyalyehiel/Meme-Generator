@@ -13,7 +13,6 @@ var gRandomStrings = [
 var gSavedMemes = []
 var gEmojis = `😃😄😁😆😅😂🤣🥲😊😇🙂🙃😉😌😍🥰😘😗😙😚😋😛😝😜🤪🤨🧐🤓😎🥸🤩🥳😏😒😞😔😟😕🙁`
 var gKeywordSearchCountMap = {}
-// { 'funny': 12, 'cat': 16, 'baby': 2 }
 var gFilterBy = ''
 var gImgs = [
     { id: 1, url: 'css/imgs/1.jpg', keywords: ['donald', 'trump', 'president'] },
@@ -108,17 +107,11 @@ function getRandomString() {
     return gRandomStrings[getRandomIntInclusive(0, gRandomStrings.length - 1)]
 }
 function getImgs() {
-    const keyWords = gKeywordSearchCountMap
-    let keys = []
-    for (const key in keyWords) {
-        keys.push(key)
-    }
-    keys = keys.filter(key => key.toLowerCase().includes(gFilterBy.toLowerCase()))
-    if (gFilterBy === '') return gImgs
-
-    var imgs = gImgs.filter(img => img.keywords.includes(keys[0]))
-
+    var imgs = gImgs.filter(img => filterKeyWords(img.keywords))
     return imgs
+}
+function filterKeyWords(keywords){
+    return keywords.some(keyword => keyword.toLowerCase().includes(gFilterBy.toLowerCase()))
 }
 
 // Emojies
@@ -208,15 +201,19 @@ function createKeyWordsMap() {
     const imgs = gImgs
     imgs.forEach(({ keywords }) => {
         keywords.forEach(keyword => {
-            if (gKeywordSearchCountMap[keyword]) gKeywordSearchCountMap[keyword]++
-            else gKeywordSearchCountMap[keyword] = 1
+            // if (gKeywordSearchCountMap[keyword]) gKeywordSearchCountMap[keyword]++
+            // else gKeywordSearchCountMap[keyword] = 1
+            gKeywordSearchCountMap[keyword] = 0
         })
     })
-    console.log(gKeywordSearchCountMap);
+    console.log('gKeywordSearchCountMap',gKeywordSearchCountMap)
 }
 function getKeyWordsMap() {
     return gKeywordSearchCountMap
 }
 function filterBy(text) {
     gFilterBy = text
+}
+function updateKeywordsSearchCountMap(keyword) {
+    gKeywordSearchCountMap[keyword]++
 }

@@ -143,11 +143,10 @@ function resizeCanvas() {
     gElCanvas.height = elContainer.offsetWidth
     renderMeme()
 }
-// Emijies
+// Emojies
 function renderEmojies() {
     let emojisDisplay = document.querySelector('.emojies-display')
     var emojies =getEmojies()
-    console.log(emojies);
     let strHtmls = ''
     for (var i = emojiIdx; i < emojiIdx + 3; i++) {
         strHtmls += `<button class="emoji-preview" onclick="onSetEmoji(this)">${emojies[i]}</button>`
@@ -181,39 +180,39 @@ function getEvPos(ev) {
 }
 //Move Funcs
 function onDown(ev) {
-
-    //Get the ev pos from mouse or touch
     const pos = getEvPos(ev)
     const { clickedItem, isClicked } = isItemClicked(pos)
-    // console.log(isClicked);
     if (!isClicked) return
+
+    gFocusedLineIdx = gMeme.lines.findIndex(line => line === clickedItem)
+    document.querySelector('.text').value = gMeme.lines[gFocusedLineIdx].txt
+
     setItemDrag(true, clickedItem)
-    //Save the pos we start from 
     gStartPos = pos
     document.querySelector('.canvas-place').style.cursor = 'grabbing'
 
 }
 function onMove(ev) {
     const clickedItem = getItemDrag()
-    // console.log(clickedItem);
+
     if (!clickedItem) return
     if (!clickedItem.isDrag) return
+
     const pos = getEvPos(ev)
-    //Calc the delta , the diff we moved
     const dx = pos.x - gStartPos.x
     const dy = pos.y - gStartPos.y
+
     moveClickedItem(dx, dy, clickedItem)
-    //Save the last pos , we remember where we`ve been and move accordingly
     gStartPos = pos
-    //The canvas is render again after every move
     renderMeme()
 
 }
 function onUp() {
-
     const clickedItem = getItemDrag()
+
     if (!clickedItem) return
     setItemDrag(false, clickedItem)
+
     document.querySelector('.canvas-place').style.cursor = 'pointer'
 }
 function addEventListeners() {
