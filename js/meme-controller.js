@@ -81,8 +81,9 @@ function onSetLineFocus() {
     const linesMap = memeLines.length
     gFocusedLineIdx++
     if (gFocusedLineIdx === linesMap) gFocusedLineIdx = 0
+    console.log('X',memeLines[gFocusedLineIdx].size);
     document.querySelector('.text').value = memeLines[gFocusedLineIdx].txt
-    // onDrawRect(gFocusedLineIdx)
+    onDrawRect(gFocusedLineIdx)
 }
 function onSetTextAlign(alignment) {
     setTextAlign(alignment, gFocusedLineIdx)
@@ -141,13 +142,15 @@ function drawImg(selectedImgId, lines) {
     }
 }
 function drawText(txt, color, size, bgColor, pos,font) {
+    gCtx.beginPath()
     gCtx.lineWidth = 2
     gCtx.strokeStyle = color
     gCtx.fillStyle = bgColor
-
+    
     gCtx.font = `${size}px ${font}`
     gCtx.fillText(txt, pos.x, pos.y)
     gCtx.strokeText(txt, pos.x, pos.y)
+    gCtx.closePath()
 }
 // Canvas
 function resizeCanvas() {

@@ -49,6 +49,7 @@ function renderFilters() {
 function onFilterBy(elSearch, ev) {
     if (ev.type === 'click') {
         filterBy(elSearch.innerText)
+        document.querySelector('.search').value = elSearch.innerText
         updateKeywordsSearchCountMap(elSearch.innerText)
         renderKeywords()
     }

@@ -10,7 +10,7 @@ var gRandomStrings = [
     'Stupidity knows no boundaries, but it knows a lot of people.',
     'Television is a medium – anything well done is rare.'
 ]
-var gSavedMemes = []
+var gSavedMemes
 var gEmojis = `😃😄😁😆😅😂🤣🥲😊😇🙂🙃😉😌😍🥰😘😗😙😚😋😛😝😜🤪🤨🧐🤓😎🥸🤩🥳😏😒😞😔😟😕🙁`
 var gKeywordSearchCountMap = {}
 var gFilterBy = ''
@@ -42,7 +42,7 @@ var gMeme = {
         {
             txt: 'I sometimes eat Falafel',
             font: 'Impact',
-            size: 20,
+            size: 10,
             color: 'black',
             bgColor: 'white',
             pos: { x: 10, y: 50 },
@@ -51,9 +51,9 @@ var gMeme = {
     ]
 }
 
-function addLine() {
+function addLine(str) {
     gMeme.lines.push({
-        txt:'TEXT',
+        txt: str || 'TEXT',
         font: 'Impact',
         size: 20,
         color: 'black',
@@ -110,7 +110,7 @@ function getImgs() {
     var imgs = gImgs.filter(img => filterKeyWords(img.keywords))
     return imgs
 }
-function filterKeyWords(keywords){
+function filterKeyWords(keywords) {
     return keywords.some(keyword => keyword.toLowerCase().includes(gFilterBy.toLowerCase()))
 }
 
@@ -125,11 +125,16 @@ function isItemClicked(clickedPos) {
     let clickedItem = memeLines.find(({ txt, pos, size }) => {
         const distance = Math.sqrt((pos.x - clickedPos.x) ** 2)
         const distanceY = Math.sqrt((pos.y - clickedPos.y) ** 2)
+        console.log(gCtx.font);
+        gCtx.font = ` ${size}px`
+        gCtx.font ='40px'
+        console.log(gCtx.font);
+        console.log(distance);
+        console.log(distanceY);
+        console.log(size);
         console.log(txt);
         console.log(gCtx.measureText(txt).width);
-
-        return distance + pos.x >= pos.x && distance <= gCtx.measureText(txt).width && distanceY + pos.y >= pos.y && distanceY + pos.y <= pos.y + size
-
+        return distance + pos.x >= pos.x && distance <= ((gCtx.measureText(txt).width)*(size/20)) && distanceY + pos.y >= pos.y && distanceY + pos.y <= pos.y + size
     })
     if (clickedItem) return { clickedItem, isClicked: true }
     return false
@@ -153,8 +158,9 @@ function moveClickedItem(dx, dy, clickedItem) {
 
 //Save func
 function saveMeme(imgContent) {
-    let img = new Image()
-    img.src = imgContent
+    gSavedMemes=loadFromStorage(SAVED_MEMES)
+    if((!gSavedMemes)||(!gSavedMemes[0])) gSavedMemes=[]
+    gMeme['data-url'] = imgContent
 
     gSavedMemes.push(gMeme)
 
@@ -173,7 +179,7 @@ function uploadImg() {
           <a class="share-btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
              Share in facebook  
           </a>`
-          document.querySelector('.share-modal').style.transform = 'translateX(50%) translateY(0)'
+        document.querySelector('.share-modal').style.transform = 'translateX(50%) translateY(0)'
     }
     doUploadImg(imgDataUrl, onSuccess)
 }
@@ -208,7 +214,7 @@ function createKeyWordsMap() {
             gKeywordSearchCountMap[keyword] = 0
         })
     })
-    console.log('gKeywordSearchCountMap',gKeywordSearchCountMap)
+    console.log('gKeywordSearchCountMap', gKeywordSearchCountMap)
 }
 function getKeyWordsMap() {
     return gKeywordSearchCountMap
