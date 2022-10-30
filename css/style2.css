@@ -312,6 +312,33 @@ body {
     margin: 10px auto 0px auto;
     padding: 10px;
     border-radius: 10px;
+    overflow: auto;
+}
+.saved-memes::-webkit-scrollbar {
+    background-color: var(--bg-clr);
+    width: 10px
+}
+
+.saved-memes::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+.saved-memes::-webkit-scrollbar-thumb {
+    background: var(--add-clr);
+    border-radius: 5px;
+}
+.saved-memes.not-empty {
+    /* grid-template-columns: repeat(5,1fr); */
+    grid-template-rows: repeat(5,1fr);
+    justify-items: start;
+    align-items: start;
+    gap: 10px;
+}
+
+.saved-memes > img {
+    width: 100%;
+    height: 100%;
 }
 
 /* HELPERS */
@@ -389,6 +416,10 @@ button:hover {
     .meme-generator .canvas-container .canvas-place {
         width: 400px;
         height: 400px;
+    }
+    .saved-memes.not-empty{
+        grid-template-columns: repeat(5,1fr);
+
     }
 }
 

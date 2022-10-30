@@ -15,6 +15,7 @@ function onInit() {
     renderFilters()
     renderGallery()
     addEventListeners()
+    renderSavedMemes()
     window.addEventListener('resize', resizeCanvas)
 }
 
@@ -81,7 +82,6 @@ function onSetLineFocus() {
     const linesMap = memeLines.length
     gFocusedLineIdx++
     if (gFocusedLineIdx === linesMap) gFocusedLineIdx = 0
-    console.log('X',memeLines[gFocusedLineIdx].size);
     document.querySelector('.text').value = memeLines[gFocusedLineIdx].txt
     onDrawRect(gFocusedLineIdx)
 }
@@ -114,10 +114,10 @@ function onDeleteLine() {
 }
 function onDrawRect(gFocusedLineIdx){
     let meme = getMeme()
-    console.log('hi')
+
     const {txt, pos ,size} = meme.lines[gFocusedLineIdx]
     // console.log(meme.lines[gFocusedLineIdx]);
-    console.log(gCtx.measureText(txt).width);
+
     gCtx.beginPath()
     gCtx.strokeStyle = 'yellow'
     gCtx.strokeRect(pos.x -5, pos.y - size - 5, gCtx.measureText(txt).width + 10, size + 10)
@@ -200,7 +200,6 @@ function onDown(ev) {
     const { clickedItem, isClicked } = isItemClicked(pos)
     if (!isClicked) return
     // onDrawRect(gFocusedLineIdx)
-    console.log(clickedItem);
     gFocusedLineIdx = gMeme.lines.findIndex(line => line === clickedItem)
     document.querySelector('.text').value = gMeme.lines[gFocusedLineIdx].txt
 
@@ -246,11 +245,32 @@ function addEventListeners() {
 function onSaveMeme() {
     const imgContent = gElCanvas.toDataURL('image/jpeg')
     saveMeme(imgContent)
+    renderSavedMemes()
 }
 function downloadMeme(elLink) {
     const imgContent = gElCanvas.toDataURL('image/jpeg')
     elLink.href = imgContent
 }
+function renderSavedMemes(){
+    let savedMemes = loadFromStorage(SAVED_MEMES)
+    if(!savedMemes || !savedMemes[0]) return
+    let strHtmls = savedMemes.map((meme,idx) => {
+        return `<img data-id="${idx}" src="${meme['data-url']}" onclick="onLoadImgFromSaved(this)">`
+    })
+    let elSavedMemes = document.querySelector('.saved-memes')
+    elSavedMemes.classList.add('not-empty')
+    elSavedMemes.innerHTML = strHtmls.join('')
+}
+function onLoadImgFromSaved(elImg){
+    let savedMemes = loadFromStorage(SAVED_MEMES)
+    let imgId = elImg.getAttribute('data-id')
+    document.querySelector('.gallery').classList.add('hide')
+    document.querySelector('.saved-memes').classList.add('hide')
+    document.querySelector('.meme-generator').classList.remove('hide')
+    setGMeme(savedMemes[imgId])
+    renderMeme()
+}
+
 // Modal
 function onCloseModal(){
     document.querySelector('.share-modal').style.transform = 'translateX(50%) translateY(-100%)'

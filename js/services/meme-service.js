@@ -125,15 +125,9 @@ function isItemClicked(clickedPos) {
     let clickedItem = memeLines.find(({ txt, pos, size }) => {
         const distance = Math.sqrt((pos.x - clickedPos.x) ** 2)
         const distanceY = Math.sqrt((pos.y - clickedPos.y) ** 2)
-        console.log(gCtx.font);
         gCtx.font = ` ${size}px`
         gCtx.font ='40px'
-        console.log(gCtx.font);
-        console.log(distance);
-        console.log(distanceY);
-        console.log(size);
-        console.log(txt);
-        console.log(gCtx.measureText(txt).width);
+
         return distance + pos.x >= pos.x && distance <= ((gCtx.measureText(txt).width)*(size/20)) && distanceY + pos.y >= pos.y && distanceY + pos.y <= pos.y + size
     })
     if (clickedItem) return { clickedItem, isClicked: true }
@@ -159,12 +153,16 @@ function moveClickedItem(dx, dy, clickedItem) {
 //Save func
 function saveMeme(imgContent) {
     gSavedMemes=loadFromStorage(SAVED_MEMES)
+
     if((!gSavedMemes)||(!gSavedMemes[0])) gSavedMemes=[]
     gMeme['data-url'] = imgContent
 
     gSavedMemes.push(gMeme)
 
     saveToStorage(SAVED_MEMES, gSavedMemes)
+}
+function setGMeme(meme){
+    gMeme = meme
 }
 //Upload funcs
 function uploadImg() {
@@ -204,6 +202,8 @@ function doUploadImg(imgDataUrl, onSuccess) {
 
 
 
+
+
 //gallery funcs
 function createKeyWordsMap() {
     const imgs = gImgs
@@ -214,7 +214,6 @@ function createKeyWordsMap() {
             gKeywordSearchCountMap[keyword] = 0
         })
     })
-    console.log('gKeywordSearchCountMap', gKeywordSearchCountMap)
 }
 function getKeyWordsMap() {
     return gKeywordSearchCountMap
