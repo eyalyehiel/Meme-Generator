@@ -43,8 +43,8 @@ var gMeme = {
             txt: 'I sometimes eat Falafel',
             font: 'Impact',
             size: 20,
-            color: 'red',
-            bgColor: 'red',
+            color: 'black',
+            bgColor: 'white',
             pos: { x: 10, y: 50 },
             isDrag: false
         }
@@ -56,8 +56,8 @@ function addLine(str) {
         txt: str || 'TEXT',
         font: 'Impact',
         size: 20,
-        color: 'red',
-        bgColor: 'red',
+        color: 'black',
+        bgColor: 'white',
         pos: { x: 10, y: 50 },
         isDrag: false
     })

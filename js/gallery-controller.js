@@ -14,11 +14,15 @@ function changeDisplay(to) {
             document.querySelector('.gallery').classList.remove('hide')
             document.querySelector('.meme-generator').classList.add('hide')
             document.querySelector('.saved-memes').classList.add('hide')
+            document.querySelector('.gallery-link').classList.add('active')
+            document.querySelector('.memes-link').classList.remove('active')
             break;
-        case 'memes':
-            document.querySelector('.gallery').classList.add('hide')
-            document.querySelector('.meme-generator').classList.add('hide')
-            document.querySelector('.saved-memes').classList.remove('hide')
+            case 'memes':
+                document.querySelector('.gallery').classList.add('hide')
+                document.querySelector('.meme-generator').classList.add('hide')
+                document.querySelector('.saved-memes').classList.remove('hide')
+                document.querySelector('.gallery-link').classList.remove('active')
+                document.querySelector('.memes-link').classList.add('active')
             break;
     }
 }
@@ -29,12 +33,14 @@ function renderFilters() {
     for (const key in keyWords) {
         keys.push(key)
     }
+    var idx = 0;
     strHtmls = keys.map(key => {
-        return `<a href="#" class="gallery-links" onclick="onFilterBy(this,event)">${key}</a>`
+        if(idx === 5) return
+        idx++
+        return `<a href="#" class="gallery-links ${key}" onclick="onFilterBy(this,event)">${key}</a>`
     }).join(' ')
     document.querySelector('.common-words').innerHTML = strHtmls
     strHtmls = ''
-
     strHtmls = keys.map(key => {
         return `<option>${key}</option>`
     }).join('')
@@ -50,4 +56,14 @@ function onFilterBy(elSearch, ev) {
         filterBy(elSearch.value)
     }
     renderGallery()
+}
+
+function renderKeywords(){
+    let keywords = getKeyWordsMap()
+    console.log(keywords);
+    for (const key in keywords) {
+        if(keywords[key] === 0) return
+        document.querySelector(`.${key}`).style.fontSize = '50px'
+        console.log(document.querySelector(`.${key}`));
+    }
 }
