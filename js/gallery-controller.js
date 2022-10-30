@@ -63,7 +63,7 @@ function renderKeywords(){
     console.log(keywords);
     for (const key in keywords) {
         if(keywords[key] === 0) return
-        document.querySelector(`.${key}`).style.fontSize = '50px'
+        // document.querySelector(`.${key}`).style.fontSize = '50px'
         console.log(document.querySelector(`.${key}`));
     }
 }

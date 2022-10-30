@@ -82,6 +82,7 @@ function onSetLineFocus() {
     gFocusedLineIdx++
     if (gFocusedLineIdx === linesMap) gFocusedLineIdx = 0
     document.querySelector('.text').value = memeLines[gFocusedLineIdx].txt
+    // onDrawRect(gFocusedLineIdx)
 }
 function onSetTextAlign(alignment) {
     setTextAlign(alignment, gFocusedLineIdx)
@@ -110,6 +111,17 @@ function onDeleteLine() {
     onSetLineFocus()
     renderMeme()
 }
+function onDrawRect(gFocusedLineIdx){
+    let meme = getMeme()
+    console.log('hi')
+    const {txt, pos ,size} = meme.lines[gFocusedLineIdx]
+    // console.log(meme.lines[gFocusedLineIdx]);
+    console.log(gCtx.measureText(txt).width);
+    gCtx.beginPath()
+    gCtx.strokeStyle = 'yellow'
+    gCtx.strokeRect(pos.x -5, pos.y - size - 5, gCtx.measureText(txt).width + 10, size + 10)
+    gCtx.closePath()
+}
 // Render Funcs
 function renderMeme() {
     const { selectedImgId, lines } = getMeme()
@@ -125,6 +137,7 @@ function drawImg(selectedImgId, lines) {
         lines.forEach(({ txt, color, size, bgColor, pos, font }) => {
             drawText(txt, color, size, bgColor,pos,font)
         });
+        // onDrawRect(gFocusedLineIdx)
     }
 }
 function drawText(txt, color, size, bgColor, pos,font) {
@@ -183,7 +196,8 @@ function onDown(ev) {
     const pos = getEvPos(ev)
     const { clickedItem, isClicked } = isItemClicked(pos)
     if (!isClicked) return
-
+    // onDrawRect(gFocusedLineIdx)
+    console.log(clickedItem);
     gFocusedLineIdx = gMeme.lines.findIndex(line => line === clickedItem)
     document.querySelector('.text').value = gMeme.lines[gFocusedLineIdx].txt
 

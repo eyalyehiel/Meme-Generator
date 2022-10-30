@@ -51,9 +51,9 @@ var gMeme = {
     ]
 }
 
-function addLine(str) {
+function addLine() {
     gMeme.lines.push({
-        txt: str || 'TEXT',
+        txt:'TEXT',
         font: 'Impact',
         size: 20,
         color: 'black',
@@ -125,6 +125,8 @@ function isItemClicked(clickedPos) {
     let clickedItem = memeLines.find(({ txt, pos, size }) => {
         const distance = Math.sqrt((pos.x - clickedPos.x) ** 2)
         const distanceY = Math.sqrt((pos.y - clickedPos.y) ** 2)
+        console.log(txt);
+        console.log(gCtx.measureText(txt).width);
 
         return distance + pos.x >= pos.x && distance <= gCtx.measureText(txt).width && distanceY + pos.y >= pos.y && distanceY + pos.y <= pos.y + size
 
@@ -158,7 +160,7 @@ function saveMeme(imgContent) {
 
     saveToStorage(SAVED_MEMES, gSavedMemes)
 }
-
+//Upload funcs
 function uploadImg() {
     const imgDataUrl = gElCanvas.toDataURL("image/jpeg")
 
