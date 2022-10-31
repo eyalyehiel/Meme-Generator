@@ -42,55 +42,55 @@
             <aside class="control-box">
                 <input type="text" class="text" oninput="onSetLineText()">
                 <div class="manage-rows">
-                    <button type="button" title="up line" onclick="onMoveLine(-50)"><img class="btnImg"
+                    <button type="button" title="Up line" onclick="onMoveLine(-50)"><img class="btnImg"
                             src="css/imgs/icons/up-arrow.png"></button>
-                    <button type="button" title="down line" onclick="onMoveLine(50)"><img class="btnImg"
+                    <button type="button" title="Down line" onclick="onMoveLine(50)"><img class="btnImg"
                             src="css/imgs/icons/down-arrow.png"></button>
-                    <button type="button" title="change line focus" onclick="onSetLineFocus('normal')"><img class="btnImg"
+                    <button type="button" title="Change line focus" onclick="onSetLineFocus('normal')"><img class="btnImg"
                             src="css/imgs/icons/up-down.png"></button>
-                    <button type="button" title="add line" onclick="onAddLine()"><img class="btnImg"
+                    <button type="button" title="Add line" onclick="onAddLine()"><img class="btnImg"
                             src="css/imgs/icons/plus.png"></button>
-                    <button type="button" title="delete line" onclick="onDeleteLine()"><img class="btnImg"
+                    <button type="button" title="Delete line" onclick="onDeleteLine()"><img class="btnImg"
                             src="css/imgs/icons/delete.png"></button>
                 </div>
                 <div class="text-manipulation">
-                    <button type="button" title="enlarge line" onclick="onSetLineSize(2)"><img class="btnImg"
+                    <button type="button" title="Enlarge line" onclick="onSetLineSize(2)"><img class="btnImg"
                             src="css/imgs/icons/enlarge.png"></button>
-                    <button type="button" title="reduce line" onclick="onSetLineSize(-2)"><img class="btnImg"
+                    <button type="button" title="Reduce line" onclick="onSetLineSize(-2)"><img class="btnImg"
                             src="css/imgs/icons/reduce.png"></button>
-                    <button type="button" title="align line" onclick="onSetTextAlign('left')"><img class="btnImg"
+                    <button type="button" title="Align line to left" onclick="onSetTextAlign('left')"><img class="btnImg"
                             src="css/imgs/icons/align-left.png"></button>
-                    <button type="button" title="align line" onclick="onSetTextAlign('center')"><img class="btnImg"
+                    <button type="button" title="Align line to center" onclick="onSetTextAlign('center')"><img class="btnImg"
                             src="css/imgs/icons/align-center.png"></button>
-                    <button type="button" title="align line" onclick="onSetTextAlign('right')"><img class="btnImg"
+                    <button type="button" title="Align line to right" onclick="onSetTextAlign('right')"><img class="btnImg"
                             src="css/imgs/icons/align-right.png"></button>
-                    <select  title="set line font" onchange="onSetLineFont(this.value)" class="selector">
+                    <select  title="Set line font" onchange="onSetLineFont(this.value)" class="selector">
                         <option>Impact</option>
                         <option>Arial</option>
                         <option>Fredoka</option>
                     </select>
-                    <button title="change font bg color" class="pallete-holder">
+                    <button title="Change font bg color" class="pallete-holder">
                         <img class="btnImg" src="css/imgs/icons/color-palette.png">
                         <input type="color" class="textBgColor pallete" oninput="onSetLineBgColor()">
                     </button>
-                    <button title="change font color" class="pallete-holder">
+                    <button title="Change font color" class="pallete-holder">
                         <img class="btnImg" src="css/imgs/icons/letter-s.png">
                         <input type="color" class="textColor pallete" oninput="onSetLineColor()">
                     </button>
 
                 </div>
                 <div class="stickers">
-                    <button title="previous" type="button" onclick="onRenderEms(-3)"><img class="btnImg"
+                    <button title="Previous" type="button" onclick="onRenderEms(-3)"><img class="btnImg"
                             src="css/imgs/icons/before.png"></button>
                     <div class="emojies-display"></div>
-                    <button title="next" type="button" onclick="onRenderEms(3)"><img class="btnImg"
+                    <button title="Next" type="button" onclick="onRenderEms(3)"><img class="btnImg"
                             src="css/imgs/icons/next.png"></button>
                 </div>
                 <div class="options">
-                    <button title="share to facebook" type="button" class="share" onclick="uploadImg()"><img src="css/imgs/icons/share.png">Share</button>
-                    <button title="save meme" type="button" class="save" onclick="onSaveMeme()"><img src="css/imgs/icons/diskette.png"></button>
+                    <button title="Share to facebook" type="button" class="share" onclick="uploadImg()"><img src="css/imgs/icons/share.png">Share</button>
+                    <button title="Save meme" type="button" class="save" onclick="onSaveMeme()"><img src="css/imgs/icons/diskette.png"></button>
                     <a class="download" href="#" onclick="downloadMeme(this)" download="my-meme.jpg">
-                        <button title="download" type="button" class="download-btn"><img src="css/imgs/icons/download.png">Download</button>
+                        <button title="Download" type="button" class="download-btn"><img src="css/imgs/icons/download.png">Download</button>
                     </a>
                 </div>
             </aside>
